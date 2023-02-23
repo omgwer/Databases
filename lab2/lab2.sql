@@ -62,23 +62,39 @@ CREATE TABLE IF NOT EXISTS stop_on_the_road
 INSERT INTO placement_along_the_road(placement_along_the_road)
 SELECT DISTINCT 
   bus_stop_direction 
-  FROM station_data;
+FROM station_data;
 
 INSERT INTO locality_name(locality_name)
 SELECT DISTINCT 
 	split_part(station_data.route, '-', 1) 
-	FROM station_data;	
+FROM station_data;	
 INSERT INTO locality_name(locality_name)
 SELECT DISTINCT 
 	split_part(station_data.route, '-', -1) 
-	FROM station_data
+FROM station_data
 ON CONFLICT (locality_name)
-	DO NOTHING;
+ 	DO NOTHING;
 
-INSERT INTO bus_stop(bus_stop_name)
-	SELECT bus_stop_name
-	FROM station_data;
+INSERT INTO bus_stop(bus_stop_name, is_have_pavilion)
+SELECT
+	CASE WHEN bus_stop_name IS NULL THEN 'Не указано' ELSE bus_stop_name END,
+	CASE WHEN is_have_pavilion = 'Есть' THEN true ELSE false END
+FROM station_data;
 
+INSERT INTO road(start_point, finish_point) 
+SELECT lnm_sp.id, lnm_fp.id
+FROM station_data AS sd
+    INNER JOIN locality_name AS lnm_sp ON lnm_sp.locality_name = split_part(sd.route, '-', 1) 
+    INNER JOIN locality_name AS lnm_fp ON lnm_fp.locality_name = split_part(sd.route, '-', -1);
+
+INSERT INTO stop_on_the_road(bus_stop_id, range_from_start, placement_along_the_road_id, road_id)
+SELECT bs.id
+FROM station_data AS sd
+	INNER JOIN bus_stop AS bs ON bs.bus_stop_name = sd.bus_stop_name AND 
+
+	
+
+	
 	
 		
 
