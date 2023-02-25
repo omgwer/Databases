@@ -6,9 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-*.VC.db
 
-**/cache/
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -19,14 +17,15 @@
 [Rr]eleases/
 x64/
 x86/
+build/
 bld/
-[Bb]in/
-[Oo]bj/
+bin/
+Bin/
+obj/
+Obj/
 
 # Visual Studio 2015 cache/options directory
 .vs/
-# Uncomment if you have tasks that create the project's static files in wwwroot
-#wwwroot/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -40,10 +39,6 @@ TestResult.xml
 [Dd]ebugPS/
 [Rr]eleasePS/
 dlldata.c
-
-# DNX
-project.lock.json
-artifacts/
 
 *_i.c
 *_p.c
@@ -139,7 +134,7 @@ publish/
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml
-# TODO: Comment the next line if you want to checkin your web deploy settings 
+# TODO: Comment the next line if you want to checkin your web deploy settings
 # but database connection strings (with potential passwords) will be unencrypted
 *.pubxml
 *.publishproj
@@ -152,9 +147,6 @@ publish/
 !**/packages/build/
 # Uncomment if necessary however generally it will be regenerated when needed
 #!**/packages/repositories.config
-# NuGet v3's project.json files produces more ignoreable files
-*.nuget.props
-*.nuget.targets
 
 # Microsoft Azure Build Output
 csx/
@@ -185,8 +177,9 @@ ClientBin/
 *.dbproj.schemaview
 *.pfx
 *.publishsettings
-node_modules/
 orleans.codegen.cs
+
+/node_modules
 
 # RIA/Silverlight projects
 Generated_Code/
@@ -236,7 +229,3 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
-samples/01-basics/string-joiner/out.txt
-Lab1/.idea/.idea.Lab1/.idea/.gitignore
-Lab1/.idea/.idea.Lab1/.idea/indexLayout.xml
-Lab1/.idea/.idea.Lab1/.idea/vcs.xml
