@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import {RouteHelper} from "./data/helper/route.helper";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { HomeComponent } from './home/home.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
     ])
   ],
-  providers: [],
+  providers: [RouteHelper],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,25 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NETCoreWebApplication1.Controllers;
 
+
 [ApiController]
-[Route("[controller]")]
-public class WeatherForecastController : ControllerBase
+[Route("api/[controller]/")]
+public class RouteController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
     {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-    private readonly ILogger<WeatherForecastController> _logger;
+    private readonly ILogger<RouteController> _logger;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public RouteController(ILogger<RouteController> logger)
     {
         _logger = logger;
     }
 
     [HttpGet]
-    [Route("/test")]
+    [Route("list/")]
     public IEnumerable<WeatherForecast> Get()
     {
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
