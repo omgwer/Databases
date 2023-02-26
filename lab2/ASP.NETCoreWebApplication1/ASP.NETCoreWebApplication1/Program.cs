@@ -1,3 +1,5 @@
+using ASP.NETCoreWebApplication1.Model.Infrastructure.EntityConfiguration;
+using ASP.NETCoreWebApplication1.Model.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +20,13 @@ builder.Services.AddCors( options =>
 } );
 
 builder.Services.AddControllers().AddJsonOptions( options => options.JsonSerializerOptions.IncludeFields = true );
+
+builder.Services.AddDbContext<StopOnTheRoadDbContext>( t =>
+{
+    t.UseNpgsql("Host=localhost; Database=ips_labs; Username=testuser; Password=12345678; Port= 5432");
+} );
+
+builder.Services.AddScoped<StopOnTheRoadService>();
 
 var app = builder.Build();
 

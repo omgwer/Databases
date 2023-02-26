@@ -1,7 +1,6 @@
 using ASP.NETCoreWebApplication1.Model;
-using ASP.NETCoreWebApplication1.Model.DbWorker;
+using ASP.NETCoreWebApplication1.Model.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
-using Npgsql;
 
 namespace ASP.NETCoreWebApplication1.Controllers;
 
@@ -10,10 +9,12 @@ namespace ASP.NETCoreWebApplication1.Controllers;
 public class RouteController : ControllerBase
 {
     private readonly ILogger<RouteController> _logger;
+    private readonly StopOnTheRoadService _stopOnTheRoadService;
 
-    public RouteController(ILogger<RouteController> logger)
+    public RouteController(ILogger<RouteController> logger, StopOnTheRoadService stopOnTheRoadService)
     {
         _logger = logger;
+        _stopOnTheRoadService = stopOnTheRoadService;
     }
 
     [HttpGet]
@@ -40,9 +41,10 @@ public class RouteController : ControllerBase
             finishPoint = "tetyshi"
         };
 
-        var kek = new DbWorker().executeRequest("SELECT * FROM  placement_along_the_road");
+            //  var kek = new DbWorker().executeRequest("SELECT * FROM  placement_along_the_road");
 
-
+            var t = _stopOnTheRoadService.GetRecipe(0);
+            
         var result = new RouteDto[2] { test , test1};
 
         return Ok(result);
