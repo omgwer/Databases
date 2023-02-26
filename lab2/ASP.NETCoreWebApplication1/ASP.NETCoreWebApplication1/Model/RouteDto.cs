@@ -4,7 +4,8 @@ public class RouteDto
 {
     public string isHavePavilion;
     public string busStopName;
-    public float rangeFromStart;
+    public double rangeFromStart;
     public string placementAlongTheRoad;
-    public int roadId;
+    public string startPoint;
+    public string finishPoint;
 }

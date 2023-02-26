@@ -1,17 +1,14 @@
+using ASP.NETCoreWebApplication1.Model;
+using ASP.NETCoreWebApplication1.Model.DbWorker;
 using Microsoft.AspNetCore.Mvc;
+using Npgsql;
 
 namespace ASP.NETCoreWebApplication1.Controllers;
-
 
 [ApiController]
 [Route("api/[controller]/")]
 public class RouteController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
     private readonly ILogger<RouteController> _logger;
 
     public RouteController(ILogger<RouteController> logger)
@@ -20,15 +17,34 @@ public class RouteController : ControllerBase
     }
 
     [HttpGet]
-    [Route("list/")]
-    public IEnumerable<WeatherForecast> Get()
+    [Route("list/{index :int}")]
+    public IActionResult Get(int index)
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+        var test = new RouteDto
+        {
+            isHavePavilion = "Есть",
+            busStopName = "Нагорный",
+            rangeFromStart = 2.33,
+            placementAlongTheRoad = "Слева",
+            startPoint = "yoshkar-ola",
+            finishPoint = "morki"
+        };
+        
+        var test1 = new RouteDto
+        {
+            isHavePavilion = "Нет",
+            busStopName = "Остановка всякое",
+            rangeFromStart = 1.488,
+            placementAlongTheRoad = "Справа",
+            startPoint = "shulka",
+            finishPoint = "tetyshi"
+        };
+
+        var kek = new DbWorker().executeRequest("SELECT * FROM  placement_along_the_road");
+
+
+        var result = new RouteDto[2] { test , test1};
+
+        return Ok(result);
     }
 }

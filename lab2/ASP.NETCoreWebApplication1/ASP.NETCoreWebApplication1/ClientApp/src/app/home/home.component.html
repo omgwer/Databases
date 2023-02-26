@@ -1,21 +1,60 @@
 <h1>Search form </h1>
 
-<div >
+<div>
   <form
     name="searchForm"
     novalidate
-    class="search-form">
-<!--    [formGroup]="searchRouteForm"-->
-<!--    (ngSubmit)="searchRoute()"-->
+    class="search-form"
+    [formGroup]="searchRouteForm"
+    (ngSubmit)="searchRoute()"
+    >
 
-    <select>
+    <div class="search-from-header">
+      <span>Start</span>
+      <span>Finish</span>
+      <span>Range</span>
+      <span>Bus stop name</span>
+      <span>Placement</span>
+      <span>Have pavilion</span>
+    </div>
+    <select
+      formControlName="startPoint">
+      <option *ngFor="let route of routeList ">
+        {{route.startPoint}}
+      </option>
+    </select>
+    <select
+      formControlName="finishPoint">
+      <option *ngFor="let route of routeList ">
+        {{route.finishPoint}}
+      </option>
+    </select>
+    <input
+      formControlName="rangeLeft"
+      value="0">
+    <input
+      formControlName="rangeRight"
+      value="0">
+    <select
+      formControlName="busStopName">
+      <option *ngFor="let route of routeList ">
+        {{route.busStopName}}
+      </option>
+    </select>
+    <select
+      formControlName="placementAlongTheRoad">
       <option *ngFor="let route of routeList ">
         {{route.placementAlongTheRoad}}
       </option>
     </select>
+    <select
+      formControlName="isHavePavilion">
+      <option *ngFor="let route of routeList ">
+        {{route.isHavePavilion}}
+      </option>
+    </select>
+    <button type="submit"> Поиск </button>
   </form>
 
-  <button (click)="getRouteList(0)" >
 
-  </button>
 </div>

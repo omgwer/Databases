@@ -3,5 +3,6 @@ export interface Route {
   busStopName?: string,
   rangeFromStart?: number,
   placementAlongTheRoad?: string,
-  roadId?: number
+  startPoint?: string,
+  finishPoint?: string
 }

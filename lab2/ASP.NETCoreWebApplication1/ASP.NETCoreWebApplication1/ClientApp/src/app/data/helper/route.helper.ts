@@ -10,19 +10,19 @@ export interface IOptionResponse {
 
 @Injectable()
 export class RouteHelper {
-  private baseUrl: string = 'https://localhost:44435/';
+  private baseUrl: string = 'https://localhost:7181/';
 
   constructor(private http: HttpClient) {
     this.http = http;
   }
 
-  // getRouteList(index: Number): Observable<Route[]> {
-  //   return this.http.get<Route[]>(this.baseUrl + '/api/Route/list/' + index);
-  // }
-
-  getRouteList(index: Number): string[] {
-    return ["jakPidor", "test"];
+  getRouteList(index: Number): Observable<Route[]> {
+    return this.http.get<Route[]>(this.baseUrl + 'api/Route/list/' + index);
   }
+
+  // getRouteList(index: Number): string[] {
+  //   return ["jakPidor", "test"];
+  // }
 
 
   // createRecipe(recipe: Recipe): Observable<Recipe> {
