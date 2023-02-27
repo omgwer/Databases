@@ -12,7 +12,12 @@ public class StopOnTheRoadConfiguration : IEntityTypeConfiguration<StopOnTheRoad
         builder.Property(x => x.IsHavePavilion);
         builder.Property(x => x.BusStopName);
         builder.Property(x => x.RangeFromStart);
-        builder.Property(x => x.PlacementAlongTheRoad);
-        builder.Property(x => x.RoadId);
+
+        builder
+            .HasOne(x => x.PlacementAlongTheRoad)
+            .WithMany();
+        builder
+            .HasOne(x => x.Road)
+            .WithMany();
     }
 }

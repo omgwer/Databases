@@ -7,5 +7,5 @@ public class StopOnTheRoad
     public string BusStopName { get; set; } = string.Empty;
     public double RangeFromStart { get; set; }
     public PlacementAlongTheRoad PlacementAlongTheRoad { get; set; } //dbContext
-    public Road RoadId { get; set; } //dbContext
+    public Road Road { get; set; } //dbContext
 }

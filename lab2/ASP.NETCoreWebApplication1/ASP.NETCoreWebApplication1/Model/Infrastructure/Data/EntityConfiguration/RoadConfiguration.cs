@@ -9,7 +9,12 @@ public class RoadConfiguration : IEntityTypeConfiguration<Road>
     public void Configure(EntityTypeBuilder<Road> builder)
     {
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.StartPoint);
-        builder.Property(x => x.FinishPoint);
+
+        builder
+            .HasOne(x => x.StartPoint)
+            .WithMany();
+        builder
+            .HasOne(x => x.FinishPoint)
+            .WithMany();
     }
 }

@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS station_data
 --import data from .csv file
 SET client_encoding = UTF8;
 COPY station_data(route, bus_stop_range, bus_stop_name, bus_stop_direction, is_have_pavilion) 
-FROM 'E:\Projects\Databases\lab2\station.csv'
+--FROM 'E:\Projects\Databases\lab2\station.csv'
+FROM 'D:\Study\Databases\lab2\station.csv'
 DELIMITER ';'
 CSV HEADER;
 
