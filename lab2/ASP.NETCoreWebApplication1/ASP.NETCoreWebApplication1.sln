@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASP.NETCoreWebApplication1", "ASP.NETCoreWebApplication1\ASP.NETCoreWebApplication1.csproj", "{5FC2D064-93AD-4AF6-89EA-CF707F84E0D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab2", "Lab2\Lab2.csproj", "{5FC2D064-93AD-4AF6-89EA-CF707F84E0D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

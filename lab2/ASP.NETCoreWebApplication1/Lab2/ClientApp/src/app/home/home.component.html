@@ -1,0 +1,79 @@
+<h1>Search form </h1>
+
+<div>
+  <form
+    name="searchForm"
+    novalidate
+    class="search-form"
+    [formGroup]="searchRouteForm"
+    (ngSubmit)="searchRoute()"
+  >
+
+    <div class="search-from-header">
+      <span>Start</span>
+      <span>Finish</span>
+      <span>Range</span>
+      <span>Bus stop name</span>
+      <span>Placement</span>
+      <span>Have pavilion</span>
+    </div>
+    <select
+      formControlName="startPoint">
+      <option *ngFor="let localityName of restrictions.localityName ">
+        {{localityName}}
+      </option>
+    </select>
+    <select
+      formControlName="finishPoint">
+      <option *ngFor="let localityName of restrictions.localityName ">
+        {{localityName}}
+      </option>
+    </select>
+    <input
+      formControlName="rangeLeft"
+      value="0">
+    <input
+      formControlName="rangeRight"
+      value="0">
+    <select
+      formControlName="busStopName">
+      <option *ngFor="let busStopName of restrictions.busStopName ">
+        {{busStopName}}
+      </option>
+    </select>
+    <select
+      formControlName="placementAlongTheRoad">
+      <option *ngFor="let placement of restrictions.placement ">
+        {{placement}}
+      </option>
+    </select>
+    <select
+      formControlName="isHavePavilion">
+      <option *ngFor="let isHavePavilion of restrictions.isHavePavilion ">
+        {{isHavePavilion}}
+      </option>
+    </select>
+    <button type="submit"> Поиск</button>
+  </form>
+
+  <table>
+    <tr>
+      <td>Начальая точка</td>
+      <td>Конечная точка</td>
+      <td>Расстояние</td>
+      <td>Название остановки</td>
+      <td>Размещение остановки</td>
+      <td>Имеется павильон</td>
+    </tr>
+    <tr *ngFor="let route of routeList">
+      <td>{{route.startPoint}}</td>
+      <td>{{route.finishPoint}}</td>
+      <td>{{route.rangeFromStart}}</td>
+      <td>{{route.busStopName}}</td>
+      <td>{{route.placementAlongTheRoad}}</td>
+      <td>{{route.isHavePavilion}}</td>
+    </tr>
+  </table>
+  <button (click)="getNextElements()" >Download more</button>
+
+</div>
