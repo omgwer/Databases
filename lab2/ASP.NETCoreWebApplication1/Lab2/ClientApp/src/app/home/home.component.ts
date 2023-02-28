@@ -17,7 +17,9 @@ export class HomeComponent implements OnInit {
     placement : [],
     localityName : [],
     busStopName : [],
-    isHavePavilion : []
+    isHavePavilion : [],
+    minRange : 0.0,
+    maxRange : 0.0
   };
 
   ngOnInit() {
@@ -30,13 +32,13 @@ export class HomeComponent implements OnInit {
   }
 
   searchRouteForm: FormGroup = new FormGroup({
-    startPoint: new FormControl('не выбрано'),
-    finishPoint: new FormControl('не выбрано'),
-    rangeLeft: new FormControl('не выбрано'),
-    rangeRight: new FormControl('не выбрано'),
-    busStopName: new FormControl('не выбрано'),
-    placementAlongTheRoad: new FormControl('не выбрано'),
-    isHavePavilion: new FormControl('не выбрано')
+    startPoint: new FormControl(this.dontSelect),
+    finishPoint: new FormControl(this.dontSelect),
+    rangeLeft: new FormControl(this.dontSelect),
+    rangeRight: new FormControl(this.dontSelect),
+    busStopName: new FormControl(this.dontSelect),
+    placementAlongTheRoad: new FormControl(this.dontSelect),
+    isHavePavilion: new FormControl(this.dontSelect)
   });
 
   getRouteList(index: Number) : void {
@@ -59,6 +61,8 @@ export class HomeComponent implements OnInit {
       this.restrictions.placement.push(this.dontSelect);
       this.restrictions.busStopName.push(this.dontSelect);
       this.restrictions.isHavePavilion.push(this.dontSelect);
+      this.restrictions.minRange = 0.0;
+      this.restrictions.maxRange = 0.0;
       x.placement.forEach( e => this.restrictions.placement.push(e));
       x.localityName.forEach(e => this.restrictions.localityName.push(e))
       x.isHavePavilion.forEach(e => {
@@ -71,9 +75,24 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  searchRoute() {
-    let formData = { ...this.searchRouteForm.value };
+  clearSearchForm() {
+      this.searchRouteForm.reset();
+  }
+
+  clearSearchResult() {
     this.listIndex = 0;
     this.routeList = [];
   }
+
+  searchRoute() {
+    let formData = { ...this.searchRouteForm.value };
+    this.searchRouteForm;
+    this.clearSearchResult();
+  }
+
+  searchSubstring() {
+    console.log(1);
+  }
+
+  toDto() : void {}
 }

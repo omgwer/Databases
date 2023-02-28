@@ -200,13 +200,6 @@ FROM first_road AS fr
 	INNER JOIN second_road AS sr ON fr.finish_point = sr.start_point
 	INNER JOIN max_range AS mr ON fr.start_point = mr.start_point AND fr.finish_point = mr.finish_point;
 	
-	
-
-
-
-
-
-
 
 
 

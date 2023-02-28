@@ -23,7 +23,7 @@ builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializ
 
 builder.Services.AddDbContext<StopOnTheRoadDbContext>(t =>
 {
-    t.UseNpgsql("Host=localhost; Database=ips_labs; Username=testuser; Password=12345678; Port= 5432");
+    t.UseNpgsql("Host=localhost; Database=ips_labs; Username=postgres; Password=12345678; Port= 5432");
 });
 
 builder.Services.AddScoped<StopOnTheRoadService>();

@@ -15,4 +15,5 @@ public class Restriction
     
     [JsonPropertyName("isHavePavilion")]
     public IEnumerable<string>? IsHavePavilion { get; set; }
+
 }
