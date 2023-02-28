@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Route} from "../container/route.interface";
 import {Restrictions} from "../container/restrictions.interface";
+import {SearchSubstringRequest} from "../container/searchSubstringRequest.interface";
 
 export interface IOptionResponse {
   message: string;
@@ -23,6 +24,10 @@ export class RouteHelper {
 
   getRestriction() : Observable<Restrictions> {
     return this.http.get<Restrictions>(this.baseUrl + 'api/Route/restrictions');
+  }
+
+  searchSubstring(request: SearchSubstringRequest) : Observable<Route[]> {
+    return this.http.post<Route[]>(this.baseUrl + 'api/Route/searchSubstring', request );
   }
 
 

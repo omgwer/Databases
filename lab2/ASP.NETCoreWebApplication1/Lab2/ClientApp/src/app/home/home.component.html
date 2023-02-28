@@ -9,7 +9,6 @@
     (ngSubmit)="searchRoute()"
   >
 
-
     <div>
       <span class="form-name">Start</span>
       <select
@@ -82,9 +81,13 @@
 
   <br>
 
-  <form (ngSubmit)="searchSubstring()">
-    <input value="substring search form">
-    <button type="submit">SubstringSearch</button>
+  <form
+    [formGroup]="searchSubstringForm"
+    (ngSubmit)="searchSubstring()">
+    <input
+      formControlName="searchSubstringInput"
+      value="substring search form">
+    <button id="searchSubstring"  type="submit">SubstringSearch</button>
   </form>
   <br>
 

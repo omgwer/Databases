@@ -3,6 +3,7 @@ import {RouteHelper} from "../data/helper/route.helper";
 import {Route} from "../data/container/route.interface";
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Restrictions} from "../data/container/restrictions.interface";
+import {SearchSubstringRequest} from "../data/container/searchSubstringRequest.interface";
 
 @Component({
   selector: 'app-home',
@@ -14,13 +15,15 @@ export class HomeComponent implements OnInit {
   dontSelect: string = "не выбрано";
   routeList: Route[] = [];
   restrictions: Restrictions = {
-    placement : [],
-    localityName : [],
-    busStopName : [],
-    isHavePavilion : [],
-    minRange : 0.0,
-    maxRange : 0.0
+    placement: [],
+    localityName: [],
+    busStopName: [],
+    isHavePavilion: [],
+    minRange: 0.0,
+    maxRange: 0.0,
+    orderBy: ""
   };
+
 
   ngOnInit() {
     this.getRestrictions();
@@ -30,6 +33,10 @@ export class HomeComponent implements OnInit {
   constructor(private routeHelper: RouteHelper) {
     this.listIndex = 0;
   }
+
+  searchSubstringForm: FormGroup = new FormGroup({
+    searchSubstringInput: new FormControl(this.dontSelect)
+  });
 
   searchRouteForm: FormGroup = new FormGroup({
     startPoint: new FormControl(this.dontSelect),
@@ -41,21 +48,22 @@ export class HomeComponent implements OnInit {
     isHavePavilion: new FormControl(this.dontSelect)
   });
 
-  getRouteList(index: Number) : void {
+  getRouteList(index: Number): void {
+    this.clearSearchResult();
     this.routeHelper.getRouteList(this.listIndex).subscribe((x: Route[]) => {
       x.forEach((e) => this.routeList.push(e));
     })
     this.listIndex += 10;
   }
 
-  getNextElements() : void {
+  getNextElements(): void {
     this.routeHelper.getRouteList(10).subscribe((x: Route[]) => {
       x.forEach((e) => this.routeList.push(e));
     })
     this.listIndex += 10;
   }
 
-  getRestrictions() : void {
+  getRestrictions(): void {
     this.routeHelper.getRestriction().subscribe((x: Restrictions) => {
       this.restrictions.localityName.push(this.dontSelect);
       this.restrictions.placement.push(this.dontSelect);
@@ -63,10 +71,10 @@ export class HomeComponent implements OnInit {
       this.restrictions.isHavePavilion.push(this.dontSelect);
       this.restrictions.minRange = 0.0;
       this.restrictions.maxRange = 0.0;
-      x.placement.forEach( e => this.restrictions.placement.push(e));
+      x.placement.forEach(e => this.restrictions.placement.push(e));
       x.localityName.forEach(e => this.restrictions.localityName.push(e))
       x.isHavePavilion.forEach(e => {
-        if (e=== null)
+        if (e === null)
           this.restrictions.isHavePavilion.push("Не указано")
         else
           this.restrictions.isHavePavilion.push(e)
@@ -76,7 +84,7 @@ export class HomeComponent implements OnInit {
   }
 
   clearSearchForm() {
-      this.searchRouteForm.reset();
+    this.searchRouteForm.reset();
   }
 
   clearSearchResult() {
@@ -85,14 +93,32 @@ export class HomeComponent implements OnInit {
   }
 
   searchRoute() {
-    let formData = { ...this.searchRouteForm.value };
-    this.searchRouteForm;
+    let formData = {...this.searchRouteForm.value};
     this.clearSearchResult();
   }
 
   searchSubstring() {
-    console.log(1);
+    this.clearSearchResult();
+    let searchString = this.searchSubstringForm.value.searchSubstringInput;
+    if (searchString == "")
+      return;
+    let searchSubstring: SearchSubstringRequest = {
+      substring: searchString,
+      limit: 10,
+      offset: this.listIndex
+    };
+
+    console.log(searchSubstring.substring);
+
+    this.routeHelper.searchSubstring(searchSubstring).subscribe((x: Route[]) => {
+      x.forEach((e) => this.routeList.push(e));
+    })
+    this.listIndex += 10;
   }
 
-  toDto() : void {}
+  toDto(): void {
+  }
+
 }
+
+

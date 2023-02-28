@@ -47,4 +47,15 @@ public class RouteController : ControllerBase
 
         return Ok(restriction);
     }
+
+    [HttpPost]
+    [Route("searchSubstring")]
+    public IActionResult SearchSubstring(SearchSubstringRequest request)
+    {
+        if (request.Substring == "")
+            return NotFound();
+        var response = _stopOnTheRoadService.SearchSubstring(request.Offset, request.Limit, request.Substring);
+        return Ok(response);
+    }
+ 
 }
