@@ -10,6 +10,7 @@ public class RestrictionService
     private readonly DbSet<PlacementAlongTheRoad> _dbPlacementSet;
     private readonly DbSet<LocalityName> _dbLocalitySet;
     private readonly DbSet<Road> _dbRoadSet;
+    private readonly string connection = "Host=localhost; Database=ips_labs; Username=postgres; Password=12345678; Port= 5432";
 
     public RestrictionService(StopOnTheRoadDbContext dbContext)
     {
@@ -18,15 +19,27 @@ public class RestrictionService
         _dbLocalitySet = dbContext.Set<LocalityName>();
         _dbRoadSet = dbContext.Set<Road>();
     }
-
+    
     public IEnumerable<string> GetPlacementOfTheRoadRestriction()
     {
-        var placementAlongTheRoads =
-            _dbPlacementSet.FromSql($"SELECT DISTINCT * FROM placement_along_the_road").ToList();
+        var placementAlongTheRoads =_dbPlacementSet.FromSql($"SELECT DISTINCT * FROM placement_along_the_road").ToList();  // вот это дело нужно распарсить
+        
+        var test = 
+
+
         var placementRestrictionList = new List<string>();
         placementAlongTheRoads.ForEach(x => placementRestrictionList.Add(x.Placement));
         return placementRestrictionList;
     }
+
+    // public IEnumerable<string> GetPlacementOfTheRoadRestriction()
+    // {
+    //     var placementAlongTheRoads =
+    //         _dbPlacementSet.FromSql($"SELECT DISTINCT * FROM placement_along_the_road").ToList();
+    //     var placementRestrictionList = new List<string>();
+    //     placementAlongTheRoads.ForEach(x => placementRestrictionList.Add(x.Placement));
+    //     return placementRestrictionList;
+    // }
 
     public IEnumerable<string> GetLocalityNameRestriction()
     {

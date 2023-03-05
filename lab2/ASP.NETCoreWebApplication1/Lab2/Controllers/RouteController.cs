@@ -33,16 +33,16 @@ public class RouteController : ControllerBase
     public IActionResult GetRestrictions()
     {
         var placementRestriction = _restrictionService.GetPlacementOfTheRoadRestriction();
-        var localityNameRestriction = _restrictionService.GetLocalityNameRestriction();
-        var busStopNameRestriction = _restrictionService.GetBusStopNameRestriction();
-        var isHavePavilionRestriction = _restrictionService.GetIsHavePavilionRestriction();
+      //  var localityNameRestriction = _restrictionService.GetLocalityNameRestriction();
+       // var busStopNameRestriction = _restrictionService.GetBusStopNameRestriction();
+      //  var isHavePavilionRestriction = _restrictionService.GetIsHavePavilionRestriction();
 
         var restriction = new Restriction()
         {
             PlacementRestriction = placementRestriction,
-            LocalityName = localityNameRestriction,
-            BusStopName = busStopNameRestriction,
-            IsHavePavilion = isHavePavilionRestriction
+         //   LocalityName = localityNameRestriction,
+        //    BusStopName = busStopNameRestriction,
+         //   IsHavePavilion = isHavePavilionRestriction
         };
 
         return Ok(restriction);
