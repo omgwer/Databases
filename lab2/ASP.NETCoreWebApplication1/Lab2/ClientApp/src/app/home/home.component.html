@@ -1,0 +1,119 @@
+<h1>Search form </h1>
+
+<div>
+  <form
+    name="searchForm"
+    novalidate
+    class="search-form"
+    [formGroup]="searchRouteForm"
+    (ngSubmit)="searchRoute()"
+  >
+
+    <div>
+      <span class="form-name">Start</span>
+      <select
+        formControlName="startPoint">
+        <option *ngFor="let localityName of restrictions.localityName ">
+          {{localityName}}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <span class="form-name">Finish</span>
+      <select
+        formControlName="finishPoint">
+        <option *ngFor="let localityName of restrictions.localityName ">
+          {{localityName}}
+        </option>
+      </select>
+    </div>
+
+
+    <div>
+      <span class="form-name">MinRange</span>
+      <input
+        formControlName="rangeLeft"
+        value="0">
+    </div>
+
+    <div>
+      <span class="form-name">MaxRange</span>
+      <input
+        formControlName="rangeRight"
+        value="0">
+    </div>
+    <div>
+      <span class="form-name">Bus stop name</span>
+
+      <select
+        formControlName="busStopName">
+        <option *ngFor="let busStopName of restrictions.busStopName ">
+          {{busStopName}}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <span class="form-name">Placement</span>
+
+      <select
+        formControlName="placementAlongTheRoad">
+        <option *ngFor="let placement of restrictions.placement ">
+          {{placement}}
+        </option>
+      </select>
+
+    </div>
+    <div>
+      <span class="form-name">Have pavilion</span>
+
+      <select
+        formControlName="isHavePavilion">
+        <option *ngFor="let isHavePavilion of restrictions.isHavePavilion ">
+          {{isHavePavilion}}
+        </option>
+      </select>
+    </div>
+    <br>
+    <button type="submit"> Поиск</button>
+  </form>
+
+  <br>
+
+  <form
+    [formGroup]="searchSubstringForm"
+    (ngSubmit)="searchSubstring()">
+    <input
+      formControlName="searchSubstringInput"
+      value="substring search form">
+    <button id="searchSubstring"  type="submit">SubstringSearch</button>
+  </form>
+  <br>
+
+  <button (click)="clearSearchForm()">Clear Form</button>
+  <br>
+  <br>
+
+  <table>
+    <tr>
+      <td>Начальая точка <button>↓</button></td>
+      <td>Конечная точка <button>↓</button></td>
+      <td>Расстояние <button>↓</button></td>
+      <td>Название остановки <button>↓</button></td>
+      <td>Размещение остановки <button>↓</button></td>
+      <td>Имеется павильон <button>↓</button></td>
+    </tr>
+    <tr *ngFor="let route of routeList">
+      <td>{{route.startPoint}}</td>
+      <td>{{route.finishPoint}}</td>
+      <td>{{route.rangeFromStart}}</td>
+      <td>{{route.busStopName}}</td>
+      <td>{{route.placement}}</td>
+      <td>{{route.isHavePavilion}}</td>
+    </tr>
+  </table>
+  <br>
+  <button (click)="getNextElements()">Download more</button>
+
+</div>

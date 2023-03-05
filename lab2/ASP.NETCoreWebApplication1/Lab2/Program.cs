@@ -1,3 +1,5 @@
+using Lab2.Model.Infrastructure.Data;
+using Lab2.Model.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,18 +8,26 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddCors( options =>
+builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
         builder =>
         {
-            builder.WithOrigins( "http://localhost:44435" )
+            builder.WithOrigins("http://localhost:44435")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
-        } );
-} );
+        });
+});
 
-builder.Services.AddControllers().AddJsonOptions( options => options.JsonSerializerOptions.IncludeFields = true );
+builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.IncludeFields = true);
+
+builder.Services.AddDbContext<StopOnTheRoadDbContext>(t =>
+{
+    t.UseNpgsql("Host=localhost; Database=ips_labs; Username=postgres; Password=12345678; Port= 5432");
+});
+
+builder.Services.AddScoped<StopOnTheRoadService>();
+builder.Services.AddScoped<RestrictionService>();
 
 var app = builder.Build();
 
@@ -38,13 +48,13 @@ app.MapControllerRoute(
 
 app.MapFallbackToFile("index.html");
 
-app.UseCors( builder =>
+app.UseCors(builder =>
 {
     builder
-        .WithOrigins( "localhost:44435" )
+        .WithOrigins("localhost:44435")
         .AllowAnyOrigin()
         .AllowAnyMethod()
         .AllowAnyHeader();
-} );
+});
 
 app.Run();

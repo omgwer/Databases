@@ -1,0 +1,10 @@
+
+.search-from-header {
+  display: flex;
+}
+
+.form-name {
+  display : inline-block;
+  width: 125px;
+  padding-top: 8px;
+}

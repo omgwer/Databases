@@ -2,7 +2,7 @@ export interface Route {
   isHavePavilion?: string,
   busStopName?: string,
   rangeFromStart?: number,
-  placementAlongTheRoad?: string,
+  placement?: string,
   startPoint?: string,
   finishPoint?: string
 }

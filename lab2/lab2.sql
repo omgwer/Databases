@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS station_data
 --import data from .csv file
 SET client_encoding = UTF8;
 COPY station_data(route, bus_stop_range, bus_stop_name, bus_stop_direction, is_have_pavilion) 
-FROM 'E:\Projects\Databases\lab2\station.csv'
+--FROM 'E:\Projects\Databases\lab2\station.csv'
+FROM 'D:\Study\Databases\lab2\station.csv'
 DELIMITER ';'
 CSV HEADER;
 
@@ -199,13 +200,6 @@ FROM first_road AS fr
 	INNER JOIN second_road AS sr ON fr.finish_point = sr.start_point
 	INNER JOIN max_range AS mr ON fr.start_point = mr.start_point AND fr.finish_point = mr.finish_point;
 	
-	
-
-
-
-
-
-
 
 
 
