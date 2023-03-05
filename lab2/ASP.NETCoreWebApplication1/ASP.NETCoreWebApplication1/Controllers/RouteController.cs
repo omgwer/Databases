@@ -20,31 +20,39 @@ public class RouteController : ControllerBase
     [Route("list/{index :int}")]
     public IActionResult Get(int index)
     {
-        var test = new RouteDto
-        {
-            isHavePavilion = "Есть",
-            busStopName = "Нагорный",
-            rangeFromStart = 2.33,
-            placementAlongTheRoad = "Слева",
-            startPoint = "yoshkar-ola",
-            finishPoint = "morki"
-        };
+        DbWorker worker = new DbWorker();
+
+        //var test = new StopOnTheRoadDto
+        //{
+        //    IsHavePavilion = "Есть",
+        //    BusStopName = "Нагорный",
+        //    RangeFromStart = 2.33,
+        //    PlacementAlongTheRoad = "Слева",
+        //    Road = new RoadDto()
+        //    {
+        //        StartPoint = "yoshkar-ola",
+        //        EndPoint = "morki"
+        //    }
+        //};
         
-        var test1 = new RouteDto
-        {
-            isHavePavilion = "Нет",
-            busStopName = "Остановка всякое",
-            rangeFromStart = 1.488,
-            placementAlongTheRoad = "Справа",
-            startPoint = "shulka",
-            finishPoint = "tetyshi"
-        };
+        //var test1 = new StopOnTheRoadDto
+        //{
+        //    IsHavePavilion = "Нет",
+        //    BusStopName = "Остановка всякое",
+        //    RangeFromStart = 1.488,
+        //    PlacementAlongTheRoad = "Справа",
+        //    Road = new RoadDto()
+        //    {
+        //        StartPoint = "shulka",
+        //        EndPoint = "tetyshi"
+        //    }
+        //};
 
-        var kek = new DbWorker().executeRequest("SELECT * FROM  placement_along_the_road");
+        //var kek = new DbWorker().executeRequest("SELECT * FROM  placement_along_the_road");
 
 
-        var result = new RouteDto[2] { test , test1};
+        //var result = new StopOnTheRoadDto[2] { test , test1};
 
-        return Ok(result);
+        return Ok(worker.GetAllRoutes());
     }
 }
