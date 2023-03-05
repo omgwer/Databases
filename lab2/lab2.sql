@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS station_data
 --import data from .csv file
 SET client_encoding = UTF8;
 COPY station_data(route, bus_stop_range, bus_stop_name, bus_stop_direction, is_have_pavilion) 
---FROM 'E:\Projects\Databases\lab2\station.csv'
-FROM 'D:\Study\Databases\lab2\station.csv'
+FROM 'E:\Projects\Databases\lab2\station.csv'
+--FROM 'D:\Study\Databases\lab2\station.csv'
 DELIMITER ';'
 CSV HEADER;
 
@@ -78,7 +78,7 @@ FROM station_data AS sd
 
 INSERT INTO stop_on_the_road(is_have_pavilion, bus_stop_name, range_from_start, placement_along_the_road_id, road_id)
 SELECT DISTINCT 
-		sd.is_have_pavilion, 
+		CASE WHEN sd.is_have_pavilion IS NULL THEN 'Не указано' ELSE sd.is_have_pavilion END, 
 		CASE WHEN sd.bus_stop_name IS NULL THEN 'Не указано' ELSE sd.bus_stop_name END, 
 		sd.bus_stop_range, 
 		pl_r.id, 
@@ -200,7 +200,6 @@ FROM first_road AS fr
 	INNER JOIN second_road AS sr ON fr.finish_point = sr.start_point
 	INNER JOIN max_range AS mr ON fr.start_point = mr.start_point AND fr.finish_point = mr.finish_point;
 	
-
 
 
 
