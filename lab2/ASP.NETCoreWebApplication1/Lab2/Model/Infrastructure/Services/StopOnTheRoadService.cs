@@ -1,3 +1,4 @@
+using System.Data;
 using Lab2.Model.Domain;
 using Lab2.Model.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -38,18 +39,22 @@ public class StopOnTheRoadService
     {
         using NpgsqlConnection npgSqlConnection = new NpgsqlConnection(CONNECTION_STRING);
         npgSqlConnection.Open();
-        using NpgsqlCommand command = new NpgsqlCommand(BASE_REQUEST + "LIMIT @limit OFFSET @offset" , npgSqlConnection);
+        using NpgsqlCommand command = new NpgsqlCommand(BASE_REQUEST + "WHERE ST_R.ID > @offset LIMIT @limit;" , npgSqlConnection);
         command.Parameters.AddWithValue("limit", limit);
         command.Parameters.AddWithValue("offset", offset);
         var reader = command.ExecuteReader();
         List<StopOnTheRoad> stopOnTheRoadList = new List<StopOnTheRoad>();
         StopOnTheRoad stopOnTheRoad = new StopOnTheRoad();
-        while (reader.Read())
+        while (reader.Read())   // convert base object
         {
-            stopOnTheRoad.Id = 0;
+            stopOnTheRoad.StartPoint = reader.GetString(1);
+            stopOnTheRoad.FinishPoint = reader.GetString(2);
+            stopOnTheRoad.RangeFromStart = reader.GetFloat(3);
+            stopOnTheRoad.BusStopName = reader.GetString(4);
+            stopOnTheRoad.Placement = reader.GetString(5);
+            stopOnTheRoad.IsHavePavilion = reader.GetString(6);
+            stopOnTheRoadList.Add(stopOnTheRoad);
         }
-
-
         return stopOnTheRoadList;
     }
 
