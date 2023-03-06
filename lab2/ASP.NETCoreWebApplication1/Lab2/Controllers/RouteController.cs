@@ -11,11 +11,16 @@ public class RouteController : ControllerBase
 {
     private readonly ILogger<RouteController> _logger;
     private readonly Lab2.DbWorker.DbWorker _dbWorker;
+    private readonly StopOnTheRoadService _stopOnTheRoadService;
+    private readonly RestrictionService _restrictionService;
 
-    public RouteController(ILogger<RouteController> logger, Lab2.DbWorker.DbWorker dbWorker)
+    public RouteController(ILogger<RouteController> logger, StopOnTheRoadService stopOnTheRoadService,
+        RestrictionService restrictionService)
     {
         _logger = logger;
-        _dbWorker = dbWorker;
+        _stopOnTheRoadService = stopOnTheRoadService;
+        _restrictionService = restrictionService;
+        _dbWorker = new DbWorker.DbWorker();
     }
 
     [HttpGet]

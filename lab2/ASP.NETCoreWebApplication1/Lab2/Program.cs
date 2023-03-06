@@ -22,16 +22,13 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.IncludeFields = true);
 
-builder.Services.AddScoped<DbWorker>();
-//builder.Services.AddDbContext<DbWorker>(t => t.UseNpgsql("Server=localhost;userid=postgres;Password=12345678;Database=Lab2;Port=5432"));
+builder.Services.AddDbContext<StopOnTheRoadDbContext>(t =>
+{
+    t.UseNpgsql("Host=localhost; Database=Lab2; Username=postgres; Password=12345678; Port= 5432");
+});
 
-//builder.Services.AddDbContext<StopOnTheRoadDbContext>(t =>
-//{
-//    t.UseNpgsql("Host=localhost; Database=Lab2; Username=postgres; Password=12345678; Port= 5432");
-//});
-
-//builder.Services.AddScoped<StopOnTheRoadService>();
-//builder.Services.AddScoped<RestrictionService>();
+builder.Services.AddScoped<StopOnTheRoadService>();
+builder.Services.AddScoped<RestrictionService>();
 
 var app = builder.Build();
 

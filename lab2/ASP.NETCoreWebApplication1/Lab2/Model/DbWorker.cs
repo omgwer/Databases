@@ -132,9 +132,9 @@ public class DbWorker
         return result;
     }
 
-    public List<StopOnTheRoadDto> GetAllRoutes()
+    public List<StopOnTheRoad> GetAllRoutes()
     {
-        List<StopOnTheRoadDto> result = new List<StopOnTheRoadDto>();
+        List<StopOnTheRoad> result = new List<StopOnTheRoad>();
         using (NpgsqlConnection npgSqlConnection = new NpgsqlConnection(CONNECTION_STRING))
         {
             npgSqlConnection.Open();
