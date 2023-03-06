@@ -1,3 +1,4 @@
+using Lab2.DbWorker;
 using Lab2.Model.Domain;
 using Lab2.Model.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -9,22 +10,20 @@ namespace Lab2.Controllers;
 public class RouteController : ControllerBase
 {
     private readonly ILogger<RouteController> _logger;
-    private readonly StopOnTheRoadService _stopOnTheRoadService;
-    private readonly RestrictionService _restrictionService;
+    private readonly Lab2.DbWorker.DbWorker _dbWorker;
 
-    public RouteController(ILogger<RouteController> logger, StopOnTheRoadService stopOnTheRoadService,
-        RestrictionService restrictionService)
+    public RouteController(ILogger<RouteController> logger, Lab2.DbWorker.DbWorker dbWorker)
     {
         _logger = logger;
-        _stopOnTheRoadService = stopOnTheRoadService;
-        _restrictionService = restrictionService;
+        _dbWorker = dbWorker;
     }
 
     [HttpGet]
     [Route("list/{index :int}")]
     public IActionResult Get(int offset = 0, int limit = 10)
     {
-        var response = _stopOnTheRoadService.GetStopOnTheRoadList(offset, limit);
+
+        var response = _dbWorker.GetStopOnTheRoadList(offset, limit);
         return Ok(response);
     }
 
@@ -32,10 +31,10 @@ public class RouteController : ControllerBase
     [Route("restrictions")]
     public IActionResult GetRestrictions()
     {
-        var placementRestriction = _restrictionService.GetPlacementOfTheRoadRestriction();
-        var localityNameRestriction = _restrictionService.GetLocalityNameRestriction();
-        var busStopNameRestriction = _restrictionService.GetBusStopNameRestriction();
-        var isHavePavilionRestriction = _restrictionService.GetIsHavePavilionRestriction();
+        var placementRestriction = _dbWorker.GetAllPlacementAlongTheRoad();//_restrictionService.GetPlacementOfTheRoadRestriction();
+        var localityNameRestriction = _dbWorker.GetLocalityNameRestriction();//_restrictionService.GetLocalityNameRestriction();
+        var busStopNameRestriction = _dbWorker.GetBusStopNameRestriction();//_restrictionService.GetBusStopNameRestriction();
+        var isHavePavilionRestriction = _dbWorker.GetIsHavePavilionRestriction();//_restrictionService.GetIsHavePavilionRestriction();
 
         var restriction = new Restriction()
         {
@@ -54,7 +53,7 @@ public class RouteController : ControllerBase
     {
         if (request.Substring == "")
             return NotFound();
-        var response = _stopOnTheRoadService.SearchSubstring(request.Offset, request.Limit, request.Substring);
+        var response = _dbWorker.SearchSubstring(request.Offset, request.Limit, request.Substring);
         return Ok(response);
     }
  

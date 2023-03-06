@@ -1,6 +1,8 @@
+using Lab2.DbWorker;
 using Lab2.Model.Infrastructure.Data;
 using Lab2.Model.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,13 +23,16 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.IncludeFields = true);
 
-builder.Services.AddDbContext<StopOnTheRoadDbContext>(t =>
-{
-    t.UseNpgsql("Host=localhost; Database=ips_labs; Username=postgres; Password=12345678; Port= 5432");
-});
+builder.Services.AddScoped<DbWorker>("Server=localhost;userid=postgres;Password=12345678;Database=Lab2;Port=5432");
+//builder.Services.AddDbContext<DbWorker>(t => t.UseNpgsql("Server=localhost;userid=postgres;Password=12345678;Database=Lab2;Port=5432"));
 
-builder.Services.AddScoped<StopOnTheRoadService>();
-builder.Services.AddScoped<RestrictionService>();
+//builder.Services.AddDbContext<StopOnTheRoadDbContext>(t =>
+//{
+//    t.UseNpgsql("Host=localhost; Database=Lab2; Username=postgres; Password=12345678; Port= 5432");
+//});
+
+//builder.Services.AddScoped<StopOnTheRoadService>();
+//builder.Services.AddScoped<RestrictionService>();
 
 var app = builder.Build();
 

@@ -2,7 +2,7 @@ using Npgsql;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Internal;
 using System;
 
-namespace ASP.NETCoreWebApplication1.Model.DbWorker;
+namespace Lab2.DbWorker;
 
 public class DbWorker
 {
