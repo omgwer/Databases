@@ -21,10 +21,10 @@ public class RouteController : ControllerBase
     }
 
     [HttpGet]
-    [Route("list/{index :int}")]
-    public IActionResult Get(int offset = 0, int limit = 10)
+    [Route("list/{offset:int}")]
+    public IActionResult Get(int offset)
     {
-        var response = _stopOnTheRoadService.GetStopOnTheRoadList(offset, limit);
+        var response = _stopOnTheRoadService.GetStopOnTheRoadList(offset);
         return Ok(response);
     }
 

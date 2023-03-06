@@ -35,46 +35,62 @@ public class StopOnTheRoadService
         _dbSet = dbContext.Set<StopOnTheRoad>();
     }
     
-    public IEnumerable<StopOnTheRoad> GetStopOnTheRoadList(int offset, int limit)
+    public IEnumerable<StopOnTheRoad> GetStopOnTheRoadList(int offset)
     {
         using NpgsqlConnection npgSqlConnection = new NpgsqlConnection(CONNECTION_STRING);
         npgSqlConnection.Open();
-        using NpgsqlCommand command = new NpgsqlCommand(BASE_REQUEST + "WHERE ST_R.ID > @offset LIMIT @limit;" , npgSqlConnection);
-        command.Parameters.AddWithValue("limit", limit);
+        using NpgsqlCommand command = new NpgsqlCommand(BASE_REQUEST + " WHERE ST_R.ID > @offset LIMIT @limit" , npgSqlConnection);
         command.Parameters.AddWithValue("offset", offset);
+        command.Parameters.AddWithValue("limit", 10);
         var reader = command.ExecuteReader();
         List<StopOnTheRoad> stopOnTheRoadList = new List<StopOnTheRoad>();
-        StopOnTheRoad stopOnTheRoad = new StopOnTheRoad();
-        while (reader.Read())   // convert base object
+        if (reader.HasRows) // если есть данные
         {
-            stopOnTheRoad.StartPoint = reader.GetString(1);
-            stopOnTheRoad.FinishPoint = reader.GetString(2);
-            stopOnTheRoad.RangeFromStart = reader.GetFloat(3);
-            stopOnTheRoad.BusStopName = reader.GetString(4);
-            stopOnTheRoad.Placement = reader.GetString(5);
-            stopOnTheRoad.IsHavePavilion = reader.GetString(6);
-            stopOnTheRoadList.Add(stopOnTheRoad);
+            while (reader.Read()) // convert base object
+            {
+                StopOnTheRoad stopOnTheRoad = new StopOnTheRoad();
+                stopOnTheRoad.StartPoint = reader.GetString(1);
+                stopOnTheRoad.FinishPoint = reader.GetString(2);
+                stopOnTheRoad.RangeFromStart = Math.Round(reader.GetFloat(3), 3);
+                stopOnTheRoad.BusStopName = reader.GetString(4);
+                stopOnTheRoad.Placement = reader.GetString(5);
+                stopOnTheRoad.IsHavePavilion = reader.GetString(6);
+                stopOnTheRoadList.Add(stopOnTheRoad);
+            }
         }
         return stopOnTheRoadList;
     }
 
-    // public IEnumerable<StopOnTheRoad> GetStopOnTheRoadList(int offset, int limit)
-    // {
-    //     //TODO -  prepare statements add - защита от SQL injection
-    //     // NPG SQL command 
-    //     // Npgsql 
-    //     System.FormattableString request = $"SELECT st_r.id,ln_sp.locality_name AS start_point,ln_fp.locality_name AS finish_point,st_r.range_from_start,st_r.bus_stop_name,pl_r.placement_along_the_road,st_r.is_have_pavilion FROM stop_on_the_road AS st_r INNER JOIN placement_along_the_road AS pl_r ON st_r.placement_along_the_road_id = pl_r.id INNER JOIN road AS r ON st_r.road_id = r.id INNER JOIN locality_name AS ln_sp ON ln_sp.id = r.start_point INNER JOIN locality_name AS ln_fp ON ln_fp.id = r.finish_point LIMIT {limit} OFFSET {offset}";
-    //     var stopOnTheRoadList = _dbSet.FromSql(request).ToList();
-    //     return stopOnTheRoadList;
-    // }
-
     public IEnumerable<StopOnTheRoad> SearchSubstring(int offset, int limit, string inputString)
     {
-        var searchSubstringRequest = $"WHERE ln_sp.locality_name LIKE '%{inputString}%' OR ln_fp.locality_name LIKE '%{inputString}%' OR st_r.bus_stop_name LIKE '%{inputString}%' OR pl_r.placement_along_the_road LIKE '%{inputString}%' OR st_r.is_have_pavilion LIKE '%{inputString}%'";
-        System.FormattableString request =
-            $"SELECT st_r.id,ln_sp.locality_name AS start_point,ln_fp.locality_name AS finish_point,st_r.range_from_start,st_r.bus_stop_name,pl_r.placement_along_the_road,st_r.is_have_pavilion FROM stop_on_the_road AS st_r INNER JOIN placement_along_the_road AS pl_r ON st_r.placement_along_the_road_id = pl_r.id INNER JOIN road AS r ON st_r.road_id = r.id INNER JOIN locality_name AS ln_sp ON ln_sp.id = r.start_point INNER JOIN locality_name AS ln_fp ON ln_fp.id = r.finish_point  LIMIT {limit} OFFSET {offset}"; //{searchSubstringRequest}
-        var stopOnTheRoadList = _dbSet.FromSql(request);
-        var test2 = stopOnTheRoadList.ToList();
+        var searchSubstringRequest = " WHERE ln_sp.locality_name LIKE @searchText OR ln_fp.locality_name LIKE @searchText OR st_r.bus_stop_name LIKE @searchText OR pl_r.placement_along_the_road LIKE @searchText OR st_r.is_have_pavilion LIKE @searchText ";
+        using NpgsqlConnection npgSqlConnection = new NpgsqlConnection(CONNECTION_STRING);
+        npgSqlConnection.Open();
+        using NpgsqlCommand command = new NpgsqlCommand(BASE_REQUEST + searchSubstringRequest + " AND ST_R.ID > @offset LIMIT @limit" , npgSqlConnection);
+        command.Parameters.AddWithValue("offset", offset);
+        command.Parameters.AddWithValue("limit", 10);
+        command.Parameters.AddWithValue("searchText", '%' + inputString + '%');
+        var reader = command.ExecuteReader();
+        List<StopOnTheRoad> stopOnTheRoadList = new List<StopOnTheRoad>();
+        if (reader.HasRows) // если есть данные
+        {
+            while (reader.Read()) // convert base object
+            {
+                StopOnTheRoad stopOnTheRoad = new StopOnTheRoad();
+                stopOnTheRoad.StartPoint = reader.GetString(1);
+                stopOnTheRoad.FinishPoint = reader.GetString(2);
+                stopOnTheRoad.RangeFromStart = Math.Round(reader.GetFloat(3), 3);
+                stopOnTheRoad.BusStopName = reader.GetString(4);
+                stopOnTheRoad.Placement = reader.GetString(5);
+                stopOnTheRoad.IsHavePavilion = reader.GetString(6);
+                stopOnTheRoadList.Add(stopOnTheRoad);
+            }
+        }
+        else
+        {
+            throw new Exception("somekek");
+        }
+
         return stopOnTheRoadList;
     }
 }
