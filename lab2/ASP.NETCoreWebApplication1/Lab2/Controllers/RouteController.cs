@@ -44,7 +44,6 @@ public class RouteController : ControllerBase
             BusStopName = busStopNameRestriction,
             IsHavePavilion = isHavePavilionRestriction
         };
-
         return Ok(restriction);
     }
 

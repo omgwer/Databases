@@ -32,21 +32,44 @@ public class StopOnTheRoadService
 
     public StopOnTheRoadService(StopOnTheRoadDbContext dbContext)
     {
-        _dbSet = dbContext.Set<StopOnTheRoad>();
+       // _dbSet = dbContext.Set<StopOnTheRoad>();
     }
     
     public IEnumerable<StopOnTheRoad> GetStopOnTheRoadList(SearchParameters searchParameters)
     {
         string limit = " LIMIT @limit";
         string parameters = RequestParametersBuilder(searchParameters);
+        string direction = "";
+        if (searchParameters.Direction == "ASC")
+        {
+            string databaseTable = getDatabaseTableName(searchParameters);
+            direction = $" ORDER BY {databaseTable}  ASC  ";
+        } else if (searchParameters.Direction == "DESC")
+        {
+            string databaseTable = getDatabaseTableName(searchParameters);
+            direction = $" ORDER BY {databaseTable} DESC ";
+        }
         
         using NpgsqlConnection npgSqlConnection = new NpgsqlConnection(CONNECTION_STRING);
         npgSqlConnection.Open();
-        using NpgsqlCommand command = new NpgsqlCommand(BASE_REQUEST + " WHERE ST_R.ID > @offset " + parameters + limit , npgSqlConnection);
+        using NpgsqlCommand command = new NpgsqlCommand(BASE_REQUEST + " WHERE ST_R.ID > @offset " + parameters + direction +  limit , npgSqlConnection);
         command.Parameters.AddWithValue("offset", searchParameters.Offset);
         if (searchParameters.StartPoint != null) 
             command.Parameters.AddWithValue("startPoint", searchParameters.StartPoint);
-
+        if (searchParameters.FinishPoint != null)
+            command.Parameters.AddWithValue("finishPoint", searchParameters.FinishPoint);
+        if (searchParameters.MinRange != null)
+            command.Parameters.AddWithValue("minRange", searchParameters.MinRange);
+        if (searchParameters.MaxRange != null)
+            command.Parameters.AddWithValue("maxRange", searchParameters.MaxRange);
+        if (searchParameters.BusStopName != null)
+            command.Parameters.AddWithValue("busStopName", searchParameters.BusStopName);
+        if (searchParameters.Placement != null)
+            command.Parameters.AddWithValue("placement", searchParameters.Placement);
+        if (searchParameters.IsHavePavilion != null)
+            command.Parameters.AddWithValue("isHavePavilion", searchParameters.IsHavePavilion);
+      //  if (searchParameters.Order != null)
+        //    command.Parameters.AddWithValue("orders", searchParameters.Order);
         command.Parameters.AddWithValue("limit", 10);
         var reader = command.ExecuteReader();
         List<StopOnTheRoad> stopOnTheRoadList = new List<StopOnTheRoad>();
@@ -102,10 +125,64 @@ public class StopOnTheRoadService
     private string RequestParametersBuilder(SearchParameters searchParameters)
     {
         string parameters = "";
-
         if (searchParameters.StartPoint != null)
             parameters += " AND LN_SP.LOCALITY_NAME = @startPoint ";
-
+        if (searchParameters.FinishPoint != null)
+            parameters += " AND LN_FP.LOCALITY_NAME = @finishPoint ";
+        if (searchParameters.MinRange != null)
+            parameters += " AND ST_R.RANGE_FROM_START >  @minRange ";
+        if (searchParameters.MaxRange != null)
+            parameters += " AND ST_R.RANGE_FROM_START <  @maxRange ";
+        if (searchParameters.BusStopName != null)
+            parameters += " AND ST_R.BUS_STOP_NAME = @busStopName ";
+        if (searchParameters.Placement != null)
+            parameters += " AND PL_R.PLACEMENT_ALONG_THE_ROAD = @placement ";
+        if (searchParameters.IsHavePavilion != null)
+            parameters += " AND ST_R.IS_HAVE_PAVILION = @isHavePavilion ";
+      //  if (searchParameters.Order != null )
+       //     parameters += " ORDER BY @orders ";
         return parameters;
+    }
+
+    private string getDatabaseTableName(SearchParameters searchParameters)
+    {
+        string resultString = "";
+        switch (searchParameters.Order)
+        {
+            case "startPoint": {}
+            {
+                resultString = "LN_SP.LOCALITY_NAME";
+                break;
+            }
+            case "finishPoint":
+            {
+                resultString = "LN_FP.LOCALITY_NAME";
+                break;
+            }
+            case "range":
+            {
+                resultString = "ST_R.RANGE_FROM_START";
+                break;
+            }
+            case "busStopName":
+            {
+                resultString = "ST_R.BUS_STOP_NAME";
+                break;
+            }
+            case "placementAlongTheRoad":
+            {
+                resultString = "PL_R.PLACEMENT_ALONG_THE_ROAD";
+                break;
+            }
+            case "isHavePavilion":
+            {
+                resultString = "ST_R.IS_HAVE_PAVILION";
+                break;
+            }
+        }
+
+        if (resultString.Equals(""))
+            throw new Exception("Error");
+        return resultString;
     }
 }

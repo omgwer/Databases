@@ -3,7 +3,10 @@ export interface SearchParameters {
   finishPoint?: string | null,
   minRange?: string | null,
   maxRange?: string | null,
-  busStopName: string | null,
+  busStopName?: string | null,
+  placement?: string | null,
   isHavePavilion?: string | null,
-  offset: number
+  offset: number,
+  order?: string | null,
+  direction?: string|null
 }

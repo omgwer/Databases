@@ -5,5 +5,4 @@ export interface Restrictions {
   isHavePavilion: Array<String>
   minRange: number
   maxRange: number
-  orderBy: string
 }

@@ -21,8 +21,7 @@ export class HomeComponent implements OnInit {
     busStopName: [],
     isHavePavilion: [],
     minRange: 0.0,
-    maxRange: 0.0,
-    orderBy: ""
+    maxRange: 0.0
   };
 
   search: SearchParameters = {
@@ -32,8 +31,12 @@ export class HomeComponent implements OnInit {
     minRange : null,
     finishPoint : null,
     isHavePavilion : null,
-    startPoint : null
+    startPoint : null,
+    order : null,
+    direction : null
   }
+
+  // direction ASC && DESC
 
   ngOnInit() {
     this.getRestrictions();
@@ -51,10 +54,10 @@ export class HomeComponent implements OnInit {
   searchRouteForm: FormGroup = new FormGroup({
     startPoint: new FormControl(this.dontSelect),
     finishPoint: new FormControl(this.dontSelect),
-    rangeLeft: new FormControl(this.dontSelect),
-    rangeRight: new FormControl(this.dontSelect),
+    minRange: new FormControl(this.dontSelect),
+    maxRange: new FormControl(this.dontSelect),
     busStopName: new FormControl(this.dontSelect),
-    placementAlongTheRoad: new FormControl(this.dontSelect),
+    placement: new FormControl(this.dontSelect),
     isHavePavilion: new FormControl(this.dontSelect)
   });
 
@@ -63,14 +66,15 @@ export class HomeComponent implements OnInit {
     this.routeHelper.getRouteList(this.search).subscribe((x: Route[]) => {
       x.forEach((e) => this.routeList.push(e));
     })
-    this.search.offset += 10;
   }
 
   getNextElements(): void {
+    this.search.offset += 10;
+    console.log(this.search);
     this.routeHelper.getRouteList(this.search).subscribe((x: Route[]) => {
+      console.log(x);
       x.forEach((e) => this.routeList.push(e));
     })
-    this.search.offset += 10;
   }
 
   getRestrictions(): void {
@@ -104,17 +108,45 @@ export class HomeComponent implements OnInit {
   }
 
   searchRoute() {
-    this.search.offset = 10;
+    this.clearSearchResult();
+    this.search = {
+      offset : 0,
+      busStopName : null,
+      maxRange : null,
+      minRange : null,
+      finishPoint : null,
+      isHavePavilion : null,
+      startPoint : null,
+      order : null,
+      direction : null
+    }
+    this.search.offset = 0;
     let formData = {...this.searchRouteForm.value};
     if (formData.startPoint != this.dontSelect) {
       this.search.startPoint = formData.startPoint;
     }
-    console.log(this.search);
+    if (formData.finishPoint != this.dontSelect) {
+      this.search.finishPoint = formData.finishPoint;
+    }
+    if (formData.minRange != this.dontSelect && !isNaN(parseFloat(formData.minRange))) {
+      this.search.minRange = formData.minRange;
+    } else {
+      console.log("minRange is not valid");
+    }
+    if (formData.maxRange != this.dontSelect && !isNaN(parseFloat(formData.maxRange))) {
+      this.search.maxRange = formData.maxRange;
+    } else {
+      console.log("maxRange is not valid");
+    }
+    if (formData.busStopName != this.dontSelect) {
+      this.search.busStopName = formData.busStopName;
+    }
+    if (formData.isHavePavilion != this.dontSelect) {
+      this.search.isHavePavilion = formData.isHavePavilion;
+    }
     this.routeHelper.getRouteList(this.search).subscribe((x: Route[]) => {
       x.forEach((e) => this.routeList.push(e));
     })
-    this.search.offset += 10;
-    this.clearSearchResult();
   }
 
   searchSubstring() {
@@ -131,7 +163,63 @@ export class HomeComponent implements OnInit {
     this.routeHelper.searchSubstring(searchSubstring).subscribe((x: Route[]) => {
       x.forEach((e) => this.routeList.push(e));
     })
-    this.listIndex += 10;
+  }
+
+  orderList(index: number) {
+    let some = document.getElementsByClassName("pointer");
+    let  desc = "DESC";
+    let  asc = "ASC";
+    let direction = asc;
+    this.routeList = [];
+
+
+
+    if ( some[index - 1].classList.contains("rotate")) {
+      direction = desc;
+    }
+    else {
+      direction = asc;
+    }
+    // some[0].classList.remove("rotate")
+    // some[1].classList.remove("rotate")
+    // some[2].classList.remove("rotate")
+    // some[3].classList.remove("rotate")
+    // some[4].classList.remove("rotate")
+    // some[5].classList.remove("rotate")
+
+    some[index - 1].classList.toggle("rotate");
+
+    switch (index) {
+      case 1 : {
+        this.search.order = "startPoint";
+        break;
+      }
+      case 2 : {
+        this.search.order = "finishPoint";
+        break;
+      }
+      case 3 : {
+        this.search.order  ="range"
+        break;
+      }
+      case 4 : {
+        this.search.order  ="busStopName"
+        break;
+      }
+      case 5 : {
+        this.search.order  ="placementAlongTheRoad"
+        break;
+      }
+      case 6 : {
+        this.search.order  ="isHavePavilion"
+        break;
+      }
+    }
+    this.search.direction = direction;
+    console.log(this.search);
+    this.routeHelper.getRouteList(this.search).subscribe((x: Route[]) => {
+      x.forEach((e) => this.routeList.push(e));
+    })
   }
 
 }

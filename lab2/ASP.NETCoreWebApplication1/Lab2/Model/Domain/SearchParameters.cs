@@ -12,4 +12,6 @@ public class SearchParameters
     [JsonPropertyName("placement")] public string? Placement { get; set; }
     [JsonPropertyName("isHavePavilion")] public string? IsHavePavilion { get; set; }
     [JsonPropertyName("offset")] public int? Offset { get; set; }
+    [JsonPropertyName("order")] public string? Order { get; set; }
+    [JsonPropertyName("direction")] public string? Direction { get; set; }
 }

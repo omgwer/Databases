@@ -8,7 +8,6 @@
     [formGroup]="searchRouteForm"
     (ngSubmit)="searchRoute()"
   >
-
     <div>
       <span class="form-name">Start</span>
       <select
@@ -33,14 +32,15 @@
     <div>
       <span class="form-name">MinRange</span>
       <input
-        formControlName="rangeLeft"
-        value="0">
+        formControlName="minRange"
+        value="0"
+        placeholder="test">
     </div>
 
     <div>
       <span class="form-name">MaxRange</span>
       <input
-        formControlName="rangeRight"
+        formControlName="maxRange"
         value="0">
     </div>
     <div>
@@ -58,7 +58,7 @@
       <span class="form-name">Placement</span>
 
       <select
-        formControlName="placementAlongTheRoad">
+        formControlName="placement">
         <option *ngFor="let placement of restrictions.placement ">
           {{placement}}
         </option>
@@ -97,12 +97,12 @@
 
   <table>
     <tr>
-      <td>Начальая точка <button>↓</button></td>
-      <td>Конечная точка <button>↓</button></td>
-      <td>Расстояние <button>↓</button></td>
-      <td>Название остановки <button>↓</button></td>
-      <td>Размещение остановки <button>↓</button></td>
-      <td>Имеется павильон <button>↓</button></td>
+      <td>Начальая точка <button  class="pointer" (click)="orderList(1)">↓</button></td>
+      <td>Конечная точка <button class="pointer" (click)="orderList(2)">↓</button></td>
+      <td>Расстояние <button class="pointer" (click)="orderList(3)">↓</button></td>
+      <td>Название остановки <button class="pointer" (click)="orderList(4)">↓</button></td>
+      <td>Размещение остановки <button class="pointer" (click)="orderList(5)">↓</button></td>
+      <td>Имеется павильон <button class="pointer" (click)="orderList(6)">↓</button></td>
     </tr>
     <tr *ngFor="let route of routeList">
       <td>{{route.startPoint}}</td>
