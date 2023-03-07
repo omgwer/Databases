@@ -20,11 +20,11 @@ public class RouteController : ControllerBase
         _restrictionService = restrictionService;
     }
 
-    [HttpGet]
-    [Route("list/{offset:int}")]
-    public IActionResult Get(int offset)
+    [HttpPost]
+    [Route("list/search")]
+    public IActionResult Search(SearchParameters searchParameters)
     {
-        var response = _stopOnTheRoadService.GetStopOnTheRoadList(offset);
+        var response = _stopOnTheRoadService.GetStopOnTheRoadList(searchParameters);
         return Ok(response);
     }
 

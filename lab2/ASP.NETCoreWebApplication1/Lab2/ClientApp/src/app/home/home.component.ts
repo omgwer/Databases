@@ -4,6 +4,7 @@ import {Route} from "../data/container/route.interface";
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Restrictions} from "../data/container/restrictions.interface";
 import {SearchSubstringRequest} from "../data/container/searchSubstringRequest.interface";
+import {SearchParameters} from "../data/container/searchParameters.interface";
 
 @Component({
   selector: 'app-home',
@@ -24,10 +25,19 @@ export class HomeComponent implements OnInit {
     orderBy: ""
   };
 
+  search: SearchParameters = {
+    offset : 0,
+    busStopName : null,
+    maxRange : null,
+    minRange : null,
+    finishPoint : null,
+    isHavePavilion : null,
+    startPoint : null
+  }
 
   ngOnInit() {
     this.getRestrictions();
-    this.getRouteList(this.listIndex);
+    this.getRouteList();
   }
 
   constructor(private routeHelper: RouteHelper) {
@@ -48,16 +58,16 @@ export class HomeComponent implements OnInit {
     isHavePavilion: new FormControl(this.dontSelect)
   });
 
-  getRouteList(index: Number): void {
+  getRouteList(): void {
     this.clearSearchResult();
-    this.routeHelper.getRouteList(this.listIndex).subscribe((x: Route[]) => {
+    this.routeHelper.getRouteList(this.search).subscribe((x: Route[]) => {
       x.forEach((e) => this.routeList.push(e));
     })
     this.listIndex += 10;
   }
 
   getNextElements(): void {
-    this.routeHelper.getRouteList(10).subscribe((x: Route[]) => {
+    this.routeHelper.getRouteList(this.search).subscribe((x: Route[]) => {
       x.forEach((e) => this.routeList.push(e));
     })
     this.listIndex += 10;
@@ -107,8 +117,6 @@ export class HomeComponent implements OnInit {
       limit: 10,
       offset: this.listIndex
     };
-
-    console.log(searchSubstring.substring);
 
     this.routeHelper.searchSubstring(searchSubstring).subscribe((x: Route[]) => {
       x.forEach((e) => this.routeList.push(e));

@@ -35,12 +35,18 @@ public class StopOnTheRoadService
         _dbSet = dbContext.Set<StopOnTheRoad>();
     }
     
-    public IEnumerable<StopOnTheRoad> GetStopOnTheRoadList(int offset)
+    public IEnumerable<StopOnTheRoad> GetStopOnTheRoadList(SearchParameters searchParameters)
     {
+        string limit = " LIMIT @limit";
+        string parameters = RequestParametersBuilder(searchParameters);
+        
         using NpgsqlConnection npgSqlConnection = new NpgsqlConnection(CONNECTION_STRING);
         npgSqlConnection.Open();
-        using NpgsqlCommand command = new NpgsqlCommand(BASE_REQUEST + " WHERE ST_R.ID > @offset LIMIT @limit" , npgSqlConnection);
-        command.Parameters.AddWithValue("offset", offset);
+        using NpgsqlCommand command = new NpgsqlCommand(BASE_REQUEST + " WHERE ST_R.ID > @offset " + parameters + limit , npgSqlConnection);
+        command.Parameters.AddWithValue("offset", searchParameters.Offset);
+        if (searchParameters.StartPoint != null) 
+            command.Parameters.AddWithValue("startPoint", searchParameters.StartPoint);
+
         command.Parameters.AddWithValue("limit", 10);
         var reader = command.ExecuteReader();
         List<StopOnTheRoad> stopOnTheRoadList = new List<StopOnTheRoad>();
@@ -88,9 +94,18 @@ public class StopOnTheRoadService
         }
         else
         {
-            throw new Exception("somekek");
+            //throw new Exception("somekek");
         }
-
         return stopOnTheRoadList;
+    }
+
+    private string RequestParametersBuilder(SearchParameters searchParameters)
+    {
+        string parameters = "";
+
+        if (searchParameters.StartPoint != null)
+            parameters += " AND LN_SP.LOCALITY_NAME = @startPoint ";
+
+        return parameters;
     }
 }

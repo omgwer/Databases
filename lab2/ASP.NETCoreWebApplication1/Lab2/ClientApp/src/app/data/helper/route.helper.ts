@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {Route} from "../container/route.interface";
 import {Restrictions} from "../container/restrictions.interface";
 import {SearchSubstringRequest} from "../container/searchSubstringRequest.interface";
+import {SearchParameters} from "../container/searchParameters.interface";
 
 export interface IOptionResponse {
   message: string;
@@ -18,8 +19,8 @@ export class RouteHelper {
     this.http = http;
   }
 
-  getRouteList(index: Number): Observable<Route[]> {
-    return this.http.get<Route[]>(this.baseUrl + 'api/Route/list/' + index);
+  getRouteList(searchParameters: SearchParameters): Observable<Route[]> {
+    return this.http.post<Route[]>(this.baseUrl + 'api/Route/list/search', searchParameters);
   }
 
   getRestriction() : Observable<Restrictions> {
