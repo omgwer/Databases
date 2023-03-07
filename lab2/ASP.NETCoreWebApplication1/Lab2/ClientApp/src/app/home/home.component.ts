@@ -63,14 +63,14 @@ export class HomeComponent implements OnInit {
     this.routeHelper.getRouteList(this.search).subscribe((x: Route[]) => {
       x.forEach((e) => this.routeList.push(e));
     })
-    this.listIndex += 10;
+    this.search.offset += 10;
   }
 
   getNextElements(): void {
     this.routeHelper.getRouteList(this.search).subscribe((x: Route[]) => {
       x.forEach((e) => this.routeList.push(e));
     })
-    this.listIndex += 10;
+    this.search.offset += 10;
   }
 
   getRestrictions(): void {
@@ -98,12 +98,22 @@ export class HomeComponent implements OnInit {
   }
 
   clearSearchResult() {
+    this.search.offset = 0;
     this.listIndex = 0;
     this.routeList = [];
   }
 
   searchRoute() {
+    this.search.offset = 10;
     let formData = {...this.searchRouteForm.value};
+    if (formData.startPoint != this.dontSelect) {
+      this.search.startPoint = formData.startPoint;
+    }
+    console.log(this.search);
+    this.routeHelper.getRouteList(this.search).subscribe((x: Route[]) => {
+      x.forEach((e) => this.routeList.push(e));
+    })
+    this.search.offset += 10;
     this.clearSearchResult();
   }
 
@@ -122,9 +132,6 @@ export class HomeComponent implements OnInit {
       x.forEach((e) => this.routeList.push(e));
     })
     this.listIndex += 10;
-  }
-
-  toDto(): void {
   }
 
 }
