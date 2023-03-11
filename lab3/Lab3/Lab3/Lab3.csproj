@@ -12,7 +12,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Model" />
+      <Folder Include="Application\Services" />
+      <Folder Include="Infrastructure" />
+      <Folder Include="Infrastructure\Data" />
     </ItemGroup>
 
 </Project>
