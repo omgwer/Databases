@@ -8,13 +8,18 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.3" />
+        <PackageReference Include="Npgsql" Version="8.0.0-preview.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Application\Services" />
       <Folder Include="Infrastructure" />
-      <Folder Include="Infrastructure\Data" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\lab3.sql">
+        <Link>lab3.sql</Link>
+      </Content>
     </ItemGroup>
 
 </Project>
