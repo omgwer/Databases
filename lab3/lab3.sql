@@ -7,8 +7,9 @@ DROP TABLE IF EXISTS course_enrollment, course_module, course, course_status, co
 CREATE TABLE IF NOT EXISTS course
 (
 	course_id VARCHAR(36) PRIMARY KEY,
-	create_at TIMESTAMP,
-	updated_at TIMESTAMP 
+	version SERIAL,
+	create_at TIMESTAMP NOT NULL DEFAULT now(),
+	updated_at TIMESTAMP DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS course_status
@@ -23,10 +24,12 @@ CREATE TABLE IF NOT EXISTS course_module
 	module_id VARCHAR(36),	
 	course_id VARCHAR(36),
 	is_required BOOLEAN,
-	create_at TIMESTAMP,
-	updated_at TIMESTAMP,
-	FOREIGN KEY (course_id) REFERENCES course(course_id),	
-	PRIMARY KEY (module_id)
+	create_at TIMESTAMP NOT NULL DEFAULT now(),
+	updated_at TIMESTAMP DEFAULT NULL,
+	deleted_at TIMESTAMP DEFAULT NULL,
+	PRIMARY KEY (module_id),
+	FOREIGN KEY (course_id) REFERENCES course(course_id) ON UPDATE CASCADE ON DELETE CASCADE
+	
 );
 
 CREATE TABLE IF NOT EXISTS course_module_status
@@ -36,16 +39,32 @@ CREATE TABLE IF NOT EXISTS course_module_status
 	progress NUMERIC(3, 0),
 	duration INT,
 	PRIMARY KEY (enrollment_id, module_id),
-	FOREIGN KEY (enrollment_id) REFERENCES course_status(enrollment_id),
-	FOREIGN KEY (module_id) REFERENCES course_module(module_id)
+	FOREIGN KEY (enrollment_id) REFERENCES course_status(enrollment_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (module_id) REFERENCES course_module(module_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS course_enrollment
 (
 	enrollment_id VARCHAR(36),
 	course_id VARCHAR(36),
-	FOREIGN KEY(course_id) REFERENCES course(course_id),
-	FOREIGN KEY(enrollment_id) REFERENCES course_status(enrollment_id),
+	FOREIGN KEY(course_id) REFERENCES course(course_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY(enrollment_id) REFERENCES course_status(enrollment_id) ON UPDATE CASCADE ON DELETE CASCADE,
 	PRIMARY KEY(enrollment_id)	
 );
+
+--добавление значений
+INSERT INTO course VALUES 
+('test1', 1), ('testr2', 1);
+
+INSERT INTO course_module VALUES
+('testModuleId1', 'bestCourse', false), ('testModuleId2', 'bestCourse', true);
+
+
+SELECT crs.course_id, crs.create_at, crs.updated_at, c_m.course_id, c_m.is_required
+FROM course AS crs
+INNER JOIN course_module AS c_m ON crs.course_id = c_m.course_id; 
+
+SELECT * FROM course;
+
+INSERT INTO course VALUES('test1', 1), ('testr2', 1);
 

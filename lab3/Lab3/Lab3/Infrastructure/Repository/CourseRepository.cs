@@ -1,6 +1,7 @@
-namespace Lab3.Infrastructure.Service;
+namespace Lab3.Infrastructure.Repository;
 
-public class CourseService : BaseService
+public class CourseService 
 {
+    
     
 }
