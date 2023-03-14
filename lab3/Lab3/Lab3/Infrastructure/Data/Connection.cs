@@ -24,9 +24,18 @@ public class Connection
         command.CommandText = string.Empty;
     }
 
-    ~Connection()
+    
+    // TODO разделить connection на два класса connection connectionProvider
+    // явно вызывать Open 
+    // Ленивое создание создание connection
+    public DatabaseDto Open()
     {
-        connection.Close();
+        return this;
+    }
+
+    public DatabaseDto OpenTransaction()
+    {
+        return this;
     }
 
     public DatabaseDto Execute(string sqlRequest)
@@ -36,6 +45,7 @@ public class Connection
 
     public DatabaseDto Execute(string sqlRequest, List<Parameter> parametersList)
     {
+        // TODO ленивое создание connection
         if (parametersList.Count != 0)
         {
             foreach (var tmpParameter in parametersList)

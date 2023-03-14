@@ -1,6 +1,6 @@
 namespace Lab3.Application.Models.Dto;
 
-public class SaveCourseDto
+public class SaveCourseParams
 {
     public string CourseId { get; set; }
     public List<string> ModuleIds { get; set; }

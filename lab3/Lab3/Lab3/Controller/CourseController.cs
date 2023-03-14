@@ -9,11 +9,11 @@ namespace Lab3.Controller;
 public class CourseController : ControllerBase
 {
     [HttpPost("saveCourse")]
-    public IActionResult SaveCourse(SaveCourseDto saveCourseDto)
+    public IActionResult SaveCourse(SaveCourseParams saveCourseParams)
     {
         try
         {
-            new CourseRepository().SaveCourse(saveCourseDto);
+            new CourseRepository().SaveCourse(saveCourseParams);
         } catch (Exception exception)
         {
             return Problem("Error with save course");
@@ -41,8 +41,17 @@ public class CourseController : ControllerBase
     }
 
     [HttpPost("getCourseStatus")]
-    public string GetCourseStatus(int courseId)
+    public IActionResult GetCourseStatus(CourseStatusParams courseStatusParams)
     {
-        return "getCourseStatus";
+        List<List<string>> request;
+        try
+        {
+            request = new CourseRepository().GetCourseStatus(courseStatusParams);
+        } catch (Exception exception)
+        {
+            return Problem("Error with save course");
+        }
+
+        return Ok(request);
     }
 }
