@@ -16,7 +16,7 @@ public class CourseController : ControllerBase
             new CourseRepository().SaveCourse(saveCourseDto);
         } catch (Exception exception)
         {
-            return Problem(exception.Message);
+            return Problem("Error with save course");
         }
 
         return Ok("success");

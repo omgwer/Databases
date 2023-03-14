@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using Lab3.Application.Models.Dto;
 using Lab3.Infrastructure.Data;
 using Lab3.Infrastructure.Data.Common;
@@ -8,22 +9,33 @@ public class CourseRepository
 {
     public void SaveCourse(SaveCourseDto saveCourseDto)
     {
-        var insertCourseId = "INSERT INTO course VALUES( @courseId )";
-        List<Parameter> insertCourseParameters = new List<Parameter>();
-        if (saveCourseDto.CourseId != "")
+        var insertCourseSql = "INSERT INTO course VALUES( @courseId )";
+        var insertModuleSql = "INSERT INTO course_module VALUES( @moduleId, @courseId, @isRequired)";
+
+        var moduleIds = saveCourseDto.ModuleIds;
+        var requireModuleIds = saveCourseDto.RequiredModuleIds;
+        // убираем повторы из moduleIds
+        foreach (var requireModule in requireModuleIds)
         {
-            var parameter = new Parameter()
-            {
-                Name = "courseId",
-                Value = saveCourseDto.CourseId
-            };
-            insertCourseParameters.Add(parameter);
+            moduleIds.Remove(requireModule);
         }
-        
+
         var connection = new Connection();
         try
         {
-            var result = connection.Execute(insertCourseId, insertCourseParameters);
+            {
+                List<Parameter> insertCourseParameters = new List<Parameter> { new Parameter("courseId", saveCourseDto.CourseId) };
+                connection.Execute(insertCourseSql, insertCourseParameters);
+            }
+            foreach (var moduleId in moduleIds)
+            {
+                List<Parameter> insertModuleParameters = new List<Parameter>();
+                insertModuleParameters.Add( new Parameter("moduleId", moduleId));
+                insertModuleParameters.Add( new Parameter("courseId", saveCourseDto.CourseId));
+                insertModuleParameters.Add( new Parameter("isRequired", "false"));
+                connection.Execute(insertModuleSql, insertModuleParameters);
+            }
+           
             // some execute commands
             connection.Commit();
         }

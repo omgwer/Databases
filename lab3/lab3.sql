@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS course_module
 (
 	module_id VARCHAR(36),	
 	course_id VARCHAR(36),
-	is_required BOOLEAN,
+	is_required VARCHAR(5),
 	create_at TIMESTAMP NOT NULL DEFAULT now(),
 	updated_at TIMESTAMP DEFAULT NULL,
 	deleted_at TIMESTAMP DEFAULT NULL,
@@ -56,12 +56,10 @@ CREATE TABLE IF NOT EXISTS course_enrollment
 INSERT INTO course VALUES 
 ('test1', 1), ('testr2', 1);
 
-
-INSERT INTO course VALUES 
-('test2131')
-
 INSERT INTO course_module VALUES
-('testModuleId1', 'bestCourse', false), ('testModuleId2', 'bestCourse', true);
+('testModuleId1', 'test1', 'false');
+
+select * from course_module;
 
 
 SELECT crs.course_id, crs.create_at, crs.updated_at, c_m.course_id, c_m.is_required
