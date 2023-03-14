@@ -29,13 +29,12 @@ public class Connection
         connection.Close();
     }
 
-    public Connection Prepare(string sqlRequest)
+    public DatabaseDto Execute(string sqlRequest)
     {
-        command.CommandText = sqlRequest;
-        return this;
+        return Execute(sqlRequest, new List<Parameter>());
     }
 
-    public List<DataTable> Execute(string sqlRequest, List<Parameter> parametersList)
+    public DatabaseDto Execute(string sqlRequest, List<Parameter> parametersList)
     {
         if (parametersList.Count != 0)
         {
@@ -45,23 +44,23 @@ public class Connection
                 //  parameter.Direction = ParameterDirection.Input;
                 parameter.ParameterName = tmpParameter.Name;
                 parameter.Value = tmpParameter.Value;
+                command.Parameters.Add(parameter);
             }
         }
-
+        Prepare(sqlRequest);
         NpgsqlDataReader dataReader = command.ExecuteReader();
-        transaction.Commit();
-        List<DataTable> dtRtn = new List<DataTable>();
-        // while (dataReader.Read())
-        // {
-        //     DataTable dt = new DataTable();
-        //     command = new NpgsqlCommand("FETCH ALL IN " + "\"" + dataReader[0].ToString() + "\"",
-        //         connection); //use plpgsql fetch command to get data back
-        //     NpgsqlDataAdapter da = new NpgsqlDataAdapter(command);
-        //     da.Fill(dt);
-        //     dtRtn.Add(dt); //all the data will save in the List<DataTable> ,no matter the connection is closed or returned multiple refcursors
-        // }
-        
-        return dtRtn;
+        var databaseDto = new DatabaseDto();
+        while (dataReader.Read())
+        {
+            var stringInDatabaseResponse = new List<string>();
+            for (var i = 0; i < dataReader.FieldCount; i++)
+            {
+                stringInDatabaseResponse.Add(dataReader.GetValue(i).ToString());
+            }
+            databaseDto.Add(stringInDatabaseResponse);
+        }
+        dataReader.Close();
+        return databaseDto;
     }
     
     public Connection Commit()
@@ -72,13 +71,23 @@ public class Connection
     
     public Connection Rollback()
     {
-        transaction.Rollback();
+        if (transaction != null)
+            transaction.Rollback();
         return this;
     }
 
     public Connection Close()
     {
-        connection.Close();
+        if (transaction != null)
+            connection.Close();
+        return this;
+    }
+    
+    // подготовка к выполнению запроса
+    private Connection Prepare(string sqlRequest)
+    {
+        command.CommandText = sqlRequest;
+        command.Prepare();
         return this;
     }
 }

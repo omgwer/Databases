@@ -56,6 +56,10 @@ CREATE TABLE IF NOT EXISTS course_enrollment
 INSERT INTO course VALUES 
 ('test1', 1), ('testr2', 1);
 
+
+INSERT INTO course VALUES 
+('test2131')
+
 INSERT INTO course_module VALUES
 ('testModuleId1', 'bestCourse', false), ('testModuleId2', 'bestCourse', true);
 
