@@ -16,7 +16,6 @@ public class Connection
     {
         connection = new NpgsqlConnection(CONNECTION_STRING);
         connection.Open();
-        transaction = connection.BeginTransaction();
         command = new NpgsqlCommand();
         command.Connection = connection;
         command.Transaction = transaction;
@@ -28,13 +27,14 @@ public class Connection
     // TODO разделить connection на два класса connection connectionProvider
     // явно вызывать Open 
     // Ленивое создание создание connection
-    public DatabaseDto Open()
+    public Connection Open()
     {
         return this;
     }
 
-    public DatabaseDto OpenTransaction()
+    public Connection BeginTransaction()
     {
+        transaction = connection.BeginTransaction();
         return this;
     }
 
@@ -51,7 +51,6 @@ public class Connection
             foreach (var tmpParameter in parametersList)
             {
                 NpgsqlParameter parameter = new NpgsqlParameter();
-                //  parameter.Direction = ParameterDirection.Input;
                 parameter.ParameterName = tmpParameter.Name;
                 parameter.Value = tmpParameter.Value;
                 command.Parameters.Add(parameter);
