@@ -59,14 +59,26 @@ INSERT INTO course VALUES
 INSERT INTO course_module VALUES
 ('testModuleId1', 'test1', 'false');
 
-select * from course_module;
-
 
 SELECT crs.course_id, crs.create_at, crs.updated_at, c_m.course_id, c_m.is_required
 FROM course AS crs
 INNER JOIN course_module AS c_m ON crs.course_id = c_m.course_id; 
 
+
+INSERT INTO course (course_id)
+SELECT crs.course_id
+FROM course AS crs 
+WHERE crs.course_id = 'test1'
+ON CONFLICT (course_id) 
+DO UPDATE SET
+	course_id = 'testkke'
+	
+	
+INSERT INTO course_status VALUES( @enrollmentId , @progress , @duration );
+
+
+
 SELECT * FROM course;
-
-INSERT INTO course VALUES('test1', 1), ('testr2', 1);
-
+select * from course_module;
+SELECT * FROM course_enrollment;
+SELECT * FROM course_status;

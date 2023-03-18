@@ -42,9 +42,16 @@ public class CourseController : ControllerBase
     }
 
     [HttpPost("saveMaterialStatus")]
-    public string SaveMaterialStatus(int courseId)
+    public IActionResult SaveMaterialStatus(SaveMaterialStatusParams saveMaterialStatusParams)
     {
-        return "saveEnrollment";
+        try
+        {
+            new MaterialRepository().SaveMaterialStatus(saveMaterialStatusParams);
+        } catch (Exception exception)
+        {
+            return Problem(exception.Message);
+        }
+        return Ok("Material statuses with modules saved");
     }
 
     [HttpPost("getCourseStatus")]
