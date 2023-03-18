@@ -8,23 +8,21 @@ public class CourseRepository
 {
     public void SaveCourse(SaveCourseParams saveCourseParams)
     {
-        var insertCourseSql = "INSERT INTO course VALUES( @courseId );";
-
-        var moduleIds = saveCourseParams.ModuleIds;
         var requireModuleIds = saveCourseParams.RequiredModuleIds;
+        var moduleIds = saveCourseParams.ModuleIds;
         // убираем повторы из moduleIds
         foreach (var requireModule in requireModuleIds)
         {
             moduleIds.Remove(requireModule);
         }
-
-        // TODO Репозиторий открывает и закрывает транзакции
-        var connection = new Connection();
+        
+        var connection = ConnectionProvider.GetConnection();
         try
         {
             connection.OpenConnection();
             connection.BeginTransaction();
             {
+                var insertCourseSql = "INSERT INTO course VALUES( @courseId );";
                 List<Parameter> insertCourseParameters = new List<Parameter>
                     {new Parameter("courseId", saveCourseParams.CourseId)};
                 connection.Execute(insertCourseSql, insertCourseParameters);
@@ -51,7 +49,7 @@ public class CourseRepository
         catch (Exception ex)
         {
             connection.Rollback();
-            throw new Exception("fail");
+            throw new Exception(ex.Message);
         }
         finally
         {
@@ -62,10 +60,20 @@ public class CourseRepository
     public List<List<string>> GetCourseStatus(CourseStatusParams courseStatusParams)
     {
         var sqlCommand = "SELECT * FROM course";
-        var connection = new Connection();
-        var result = connection.Execute(sqlCommand);
-        connection.Commit();
-        return result.Get();
+        var connection = ConnectionProvider.GetConnection();
+        try
+        {
+            var result = connection.OpenConnection().Execute(sqlCommand);
+            return result.Get();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+        finally
+        {
+            connection.CloseConnection();
+        }
     }
     
     public void DeleteCourse(string courseId)

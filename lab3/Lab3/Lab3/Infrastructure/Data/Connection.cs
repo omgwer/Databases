@@ -6,16 +6,17 @@ namespace Lab3.Infrastructure.Data;
 
 public class Connection
 {
-    private const string CONNECTION_STRING =
-        "Host=localhost; Database=ips_labs_3; Username=postgres; Password=12345678; Port= 5432";
+    private readonly string CONNECTION_STRING;
 
     private NpgsqlConnection connection;
     private NpgsqlTransaction transaction;
     private NpgsqlCommand command;
 
-    // TODO разделить connection на два класса connection connectionProvider
-    // явно вызывать Open 
-    // Ленивое создание создание connection
+    public Connection(string connection)
+    {
+        CONNECTION_STRING = connection;
+    }
+
     public Connection OpenConnection()
     {
         GetConnection().connection.Open();
@@ -37,20 +38,7 @@ public class Connection
         command.CommandText = string.Empty;
 
         Prepare(sqlRequest, parametersList);
-        var dataReader = command.ExecuteReader();
-        var databaseDto = new DatabaseDto();
-        while (dataReader.Read())
-        {
-            var stringInDatabaseResponse = new List<string>();
-            for (var i = 0; i < dataReader.FieldCount; i++)
-            {
-                stringInDatabaseResponse.Add(dataReader.GetValue(i).ToString());
-            }
-
-            databaseDto.Add(stringInDatabaseResponse);
-        }
-
-        dataReader.Close();
+        var databaseDto = ReadDatabaseResponseResponse();
         return databaseDto;
     }
 
@@ -90,8 +78,16 @@ public class Connection
             var parameter = new NpgsqlParameter
             {
                 ParameterName = tmpParameter.Name,
-                Value = tmpParameter.Value
+                Value = tmpParameter.ValueType switch
+                {
+                    "" => tmpParameter.Value,
+                    "int" => int.Parse(tmpParameter.Value),
+                    "bool" => bool.Parse(tmpParameter.Value),
+                    _ => tmpParameter.Value
+                }
+                //Value = tmpParameter.Value
             };
+
             command.Parameters.Add(parameter);
         }
 
@@ -104,4 +100,25 @@ public class Connection
             connection = new NpgsqlConnection(CONNECTION_STRING);
         return this;
     }
+
+    private DatabaseDto ReadDatabaseResponseResponse()
+    {
+        var dataReader = command.ExecuteReader();
+        var databaseDto = new DatabaseDto();
+        while (dataReader.Read())
+        {
+            var stringInDatabaseResponse = new List<string>();
+            for (var i = 0; i < dataReader.FieldCount; i++)
+            {
+                stringInDatabaseResponse.Add(dataReader.GetValue(i).ToString());
+            }
+
+            databaseDto.Add(stringInDatabaseResponse);
+        }
+
+        dataReader.Close();
+        return databaseDto;
+    }
+    
+    
 }

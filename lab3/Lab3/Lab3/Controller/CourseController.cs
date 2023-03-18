@@ -19,7 +19,7 @@ public class CourseController : ControllerBase
             return Problem(exception.Message);
         }
 
-        return Ok("success");
+        return Ok("Course with modules saved");
     }
 
     [HttpPost("deleteCourse")]
@@ -29,9 +29,16 @@ public class CourseController : ControllerBase
     }
 
     [HttpPost("saveEnrollment")]
-    public string DeleteCourse(int courseId)
+    public IActionResult SaveEnrollment(EnrollmentParams enrollmentParams)
     {
-        return "saveEnrollment";
+        try
+        {
+            new EnrollmentRepository().SaveEnrollment(enrollmentParams);
+        } catch (Exception exception)
+        {
+            return Problem(exception.Message);
+        }
+        return Ok("Enrollment with modules saved");
     }
 
     [HttpPost("saveMaterialStatus")]
