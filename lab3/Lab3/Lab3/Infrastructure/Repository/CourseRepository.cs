@@ -22,6 +22,8 @@ public class CourseRepository
         var connection = new Connection();
         try
         {
+            connection.OpenConnection();
+            connection.BeginTransaction();
             {
                 List<Parameter> insertCourseParameters = new List<Parameter>
                     {new Parameter("courseId", saveCourseParams.CourseId)};
@@ -53,7 +55,7 @@ public class CourseRepository
         }
         finally
         {
-            connection.Close();
+            connection.CloseConnection();
         }
     }
 
