@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS course
 	course_id VARCHAR(36) PRIMARY KEY,
 	version SERIAL,
 	create_at TIMESTAMP NOT NULL DEFAULT now(),
-	updated_at TIMESTAMP DEFAULT NULL
+	updated_at TIMESTAMP DEFAULT NULL,
+	deleted_at TIMESTAMP DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS course_status
@@ -139,7 +140,7 @@ INSERT INTO course_module_status VALUES
 	
 TRUNCATE course, course_status, course_enrollment, course_module, course_module_status;
 
-SELECT * FROM course;
+SELECT * FROM course; --soft
 SELECT * FROM course_status; --soft
 SELECT * FROM course_enrollment;
 select * from course_module; --soft

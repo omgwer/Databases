@@ -103,8 +103,11 @@ public class CourseRepository
         var hardDeleteCourseEnrollment = @"
                 DELETE FROM course_enrollment WHERE course_id = @courseId;
                 ";
-        var hardDeleteCourse = @"
-                DELETE FROM course WHERE course_id = @courseId;
+        var softDeleteCourse = @"
+                UPDATE course
+                SET
+                    deleted_at = now()
+                WHERE course_id = @courseId; 
                 ";
 
 
@@ -134,7 +137,7 @@ public class CourseRepository
             {
                 List<Parameter> insertCourseParameters = new List<Parameter>();
                 insertCourseParameters.Add(new Parameter("courseId", courseId));
-                connection.Execute(hardDeleteCourse, insertCourseParameters);
+                connection.Execute(softDeleteCourse, insertCourseParameters);
             }
             connection.Commit();
         }
