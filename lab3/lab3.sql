@@ -73,12 +73,36 @@ ON CONFLICT (course_id)
 DO UPDATE SET
 	course_id = 'testkke'
 	
+
+INSERT INTO course_status (enrollment_id, progress, duration) VALUES ('test2', 5 , 5)
+ON CONFLICT (enrollment_id)
+DO UPDATE SET
+	progress = 15, duration = 10;
+
+
+INSERT INTO course_module_status (enrollment_id, module_id, progress, duration) VALUES ('test5', 'test1', 4, 5)
+ON CONFLICT (enrollment_id, module_id)
+DO UPDATE SET
+	progress = 25, duration = course_module_status.duration + 5;
+SELECT * FROM course_module_status;
 	
-INSERT INTO course_status VALUES( @enrollmentId , @progress , @duration );
+INSERT INTO course_module_status (enrollment_id, module_id, progress, duration) --VALUES ('test5', 'test1', 4, 5)
+SELECT 
+	enrollment_id,
+	module_id,
+	progress, 
+	duration
+FROM course_module_status AS cms
+WHERE cms.enrollment_id = 'test5' AND cms.module_id = 'test1'
+ON CONFLICT (enrollment_id, module_id)
+DO UPDATE SET
+	progress = 25, duration = course_module_status.duration + 5;
+SELECT * FROM course_module_status;
 
 
 
 SELECT * FROM course;
 select * from course_module;
+SELECT * FROM course_module_status;
 SELECT * FROM course_enrollment;
 SELECT * FROM course_status;
