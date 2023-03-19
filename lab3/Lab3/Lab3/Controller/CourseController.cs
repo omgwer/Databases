@@ -23,9 +23,18 @@ public class CourseController : ControllerBase
     }
 
     [HttpPost("deleteCourse")]
-    public string DeleteCourse()
+    public IActionResult DeleteCourse(string courseId)
     {
-        return "deleteCourse";
+        
+        try
+        {
+            new CourseRepository().DeleteCourse(courseId);
+        } catch (Exception exception)
+        {
+            return Problem(exception.Message);
+        }
+
+        return Ok("Course deleted");
     }
 
     [HttpPost("saveEnrollment")]
