@@ -72,7 +72,7 @@ public class CourseController : ControllerBase
             request = new CourseRepository().GetCourseStatus(courseStatusParams);
         } catch (Exception exception)
         {
-            return Problem("Error with save course");
+            return Problem(exception.Message);
         }
 
         return Ok(request);

@@ -8,8 +8,6 @@ public class MaterialRepository
 {
     public void SaveMaterialStatus(SaveMaterialStatusParams saveMaterialStatusParams)
     {
-        //var upsertCourseStatus = "INSERT INTO course_status VALUES( @enrollmentId , @progress , @duration );";
-
         var upsertCourseStatus = @"
                     INSERT INTO course_status (enrollment_id, progress, duration) VALUES (@enrollmentId , @progress , @duration)
                     ON CONFLICT (enrollment_id)

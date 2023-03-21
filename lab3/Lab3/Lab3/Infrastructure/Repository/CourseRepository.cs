@@ -110,7 +110,6 @@ public class CourseRepository
                 WHERE course_id = @courseId; 
                 ";
 
-
         var connection = ConnectionProvider.GetConnection().OpenConnection().BeginTransaction();
         try
         {
