@@ -1,6 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab4", "lab4\lab4.csproj", "{239C2B49-8A2F-4EEE-9452-964D2C341043}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.csproj", "{239C2B49-8A2F-4EEE-9452-964D2C341043}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4F9595EA-38FA-49CA-ABDA-A45FE044E53C} = {4F9595EA-38FA-49CA-ABDA-A45FE044E53C}
+		{08230C9F-7CA3-4F70-811A-690E99391C2C} = {08230C9F-7CA3-4F70-811A-690E99391C2C}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entity", "Entity\Entity.csproj", "{E920066C-A5E2-402E-8316-30B257A684FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{08230C9F-7CA3-4F70-811A-690E99391C2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{28017C53-D515-4B2A-B7AD-170D763E5FDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +22,17 @@ Global
 		{239C2B49-8A2F-4EEE-9452-964D2C341043}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{239C2B49-8A2F-4EEE-9452-964D2C341043}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{239C2B49-8A2F-4EEE-9452-964D2C341043}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E920066C-A5E2-402E-8316-30B257A684FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E920066C-A5E2-402E-8316-30B257A684FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E920066C-A5E2-402E-8316-30B257A684FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E920066C-A5E2-402E-8316-30B257A684FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08230C9F-7CA3-4F70-811A-690E99391C2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08230C9F-7CA3-4F70-811A-690E99391C2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08230C9F-7CA3-4F70-811A-690E99391C2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08230C9F-7CA3-4F70-811A-690E99391C2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28017C53-D515-4B2A-B7AD-170D763E5FDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28017C53-D515-4B2A-B7AD-170D763E5FDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28017C53-D515-4B2A-B7AD-170D763E5FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28017C53-D515-4B2A-B7AD-170D763E5FDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
