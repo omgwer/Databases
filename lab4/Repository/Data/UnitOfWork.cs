@@ -15,8 +15,13 @@ public class UnitOfWork : IUnitOfWork
     public void Commit()
     {
         _dbContext.SaveChanges();
-
+        // не нужно
         //  _dbContext.Database.BeginTransaction();
         //   _dbContext.Database.RollbackTransaction();
+    }
+
+    public void Rollback()
+    {
+        throw new NotImplementedException();
     }
 }

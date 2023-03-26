@@ -24,13 +24,19 @@ builder.Services.AddSwaggerGen();
 
 //Тут добавить сервис в DI
 builder.Services.AddScoped<DbContext, CourseDbContext>();
-builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-// builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
-// builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped<ICourseEnrollmentRepository, CourseEnrollmentRepository>();
+builder.Services.AddScoped<ICourseModuleRepository, CourseModuleRepository>();
+builder.Services.AddScoped<ICourseModuleStatusRepository, CourseModuleStatusRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ICourseStatusRepository, CourseStatusRepository>();
+//TODO - узнать, нужно ли скоупать репозитории
+builder.Services.AddScoped<ICourseEnrollmentService, CourseEnrollmentService>();
+builder.Services.AddScoped<ICourseModuleService, CourseModuleService>();
+builder.Services.AddScoped<ICourseModuleStatusService, CourseModuleStatusService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
-builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
-builder.Services.AddScoped<IModuleService, ModuleService>();
+builder.Services.AddScoped<ICourseStatusService, CourseStatusService>();
 
 var app = builder.Build();
 

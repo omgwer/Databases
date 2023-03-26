@@ -2,7 +2,7 @@
 
 namespace Repository.Service;
 
-public class EnrollmentRepository : ICourseEnrollmentRepository
+public class CourseEnrollmentRepository : ICourseEnrollmentRepository
 {
     
 }
