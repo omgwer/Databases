@@ -8,4 +8,8 @@ dotnet ef migrations add SomeoneTest --project Repository -o Migration
 
 dotnet ef migrations remove --project Repository -o Data/Migrations
 
-dotnet ef migrations add SomeoneTest --project Repository -o Data/Migrations
+dotnet ef migrations list --project Repository
+
+dotnet ef migrations add InitMigrations --project Repository -o Data/Migrations
+
+dotnet ef database update InitMigrations  --project Repository
