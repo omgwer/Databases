@@ -1,10 +1,16 @@
 ﻿namespace Entity;
 
-public class CourseStatus
+public partial class CourseStatus
 {
-    public string EnrollmentId { get; set; } = string.Empty;
-    public Course? Course { get; set; }
-    public int Progress { get; set; }
-    public int Duration { get; set; }
-    public string DeletedAt { get; set; } = string.Empty;
+    public string EnrollmentId { get; set; } = null!;
+
+    public decimal? Progress { get; set; }
+
+    public int? Duration { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
+
+    public virtual CourseEnrollment? CourseEnrollment { get; set; }
+
+    public virtual ICollection<CourseModuleStatus> CourseModuleStatuses { get; } = new List<CourseModuleStatus>();
 }

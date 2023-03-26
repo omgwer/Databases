@@ -4,8 +4,6 @@ dotnet ef dbcontext scaffold "Host=localhost; Database=ips_labs_4; Username=post
 
 dotnet ef migrations add SomeoneTest --project Repository -o Migration 
 
-
-
 dotnet ef migrations remove --project Repository -o Data/Migrations
 
 dotnet ef migrations list --project Repository

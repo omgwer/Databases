@@ -1,11 +1,20 @@
 ﻿namespace Entity;
 
-public class CourseModule
+public partial class CourseModule
 {
-    public string ModuleId { get; set; } = string.Empty;
-    public List<Course>? Courses { get; set; }
-    public bool IsRequired { get; set; }
-    public string CreatedAt { get; set; } = string.Empty;
-    public string UpdatedAt { get; set; } = string.Empty;
-    public string DeletedAt { get; set; } = string.Empty;
+    public string ModuleId { get; set; } = null!;
+
+    public string? CourseId { get; set; }
+
+    public string? IsRequired { get; set; }
+
+    public DateTime CreateAt { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
+
+    public virtual Course? Course { get; set; }
+
+    public virtual ICollection<CourseModuleStatus> CourseModuleStatuses { get; } = new List<CourseModuleStatus>();
 }

@@ -1,10 +1,18 @@
 ﻿namespace Entity;
 
-public class CourseModuleStatus
+public partial class CourseModuleStatus
 {
-    public string EnrollmentId { get; set; }       // PK
-    public string CourseModuleId { get; set; } // PK
-    public int Progress { get; set; }
-    public int Duration { get; set; }
-    public string DeletedAt { get; set; } = string.Empty;
+    public string EnrollmentId { get; set; } = null!;
+
+    public string ModuleId { get; set; } = null!;
+
+    public decimal? Progress { get; set; }
+
+    public int? Duration { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
+
+    public virtual CourseStatus Enrollment { get; set; } = null!;
+
+    public virtual CourseModule Module { get; set; } = null!;
 }

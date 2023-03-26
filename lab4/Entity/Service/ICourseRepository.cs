@@ -2,9 +2,9 @@
 
 public interface ICourseRepository
 {
-    List<Course> GetCoursesList();
-    Course GetCourse();
-    void AddCourse(Course course);
-    void DeleteCourse(string id);
-    void Update(Course course);
+    // List<Course> GetCoursesList();
+    // Course GetCourse();
+    // void AddCourse(Course course);
+    // void DeleteCourse(string id);
+    // void Update(Course course);
 }

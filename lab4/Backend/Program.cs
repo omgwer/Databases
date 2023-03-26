@@ -25,8 +25,8 @@ builder.Services.AddSwaggerGen();
 //Тут добавить сервис в DI
 builder.Services.AddScoped<DbContext, CourseDbContext>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
-builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
+// builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+// builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
