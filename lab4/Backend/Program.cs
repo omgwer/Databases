@@ -15,13 +15,15 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<CourseDbContext>( t =>
 {
-    t.UseNpgsql( builder.Configuration.GetConnectionString( "DefaultConnection" ), b => b.MigrationsAssembly("Repository") );
+   // t.UseNpgsql( builder.Configuration.GetConnectionString( "DefaultConnection" ), b => b.MigrationsAssembly("Repository") );
+    t.UseNpgsql( builder.Configuration.GetConnectionString( "DefaultConnection"),  b => b.MigrationsAssembly("Repository"));
 } );
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //Тут добавить сервис в DI
+builder.Services.AddScoped<DbContext, CourseDbContext>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
 builder.Services.AddScoped<IModuleRepository, ModuleRepository>();

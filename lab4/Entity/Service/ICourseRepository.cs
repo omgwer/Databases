@@ -1,6 +1,10 @@
 ﻿namespace Entity.Service;
 
-public class ICourseRepository
+public interface ICourseRepository
 {
-    
+    List<Course> GetCoursesList();
+    Course GetCourse();
+    void AddCourse(Course course);
+    void DeleteCourse(string id);
+    void Update(Course course);
 }

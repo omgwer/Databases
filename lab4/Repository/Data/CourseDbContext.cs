@@ -1,11 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Net.Mime;
+using Microsoft.EntityFrameworkCore;
 using Repository.Data.EntityConfiguration;
 
 namespace Repository.Data;
 
 public class CourseDbContext : DbContext
 {
-    public CourseDbContext(DbContextOptions options) : base(options)
+   // DbContextOptionsBuilder test = new DbContextOptionsBuilder().UseNpgsql("DefaultConnection");
+    
+    public CourseDbContext(DbContextOptions<CourseDbContext> options) : base(options)
     {
     }
 

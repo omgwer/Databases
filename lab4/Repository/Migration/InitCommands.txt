@@ -1,3 +1,0 @@
-dotnet ef dbcontext scaffold "Host=localhost; Database=ips_labs_4; Username=postgres; Password=12345678; Port= 5432" --project "Repository" Npgsql.EntityFrameworkCore.PostgreSQL -o Migration -c test
-
-dotnet ef dbcontext scaffold "Host=localhost; Database=ips_labs_4; Username=postgres; Password=12345678; Port= 5432" --project "Repository" Npgsql.EntityFrameworkCore.PostgreSQL -c

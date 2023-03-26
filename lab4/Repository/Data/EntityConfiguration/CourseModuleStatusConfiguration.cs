@@ -9,7 +9,7 @@ public class CourseModuleStatusConfiguration : IEntityTypeConfiguration<CourseMo
     public void Configure(EntityTypeBuilder<CourseModuleStatus> builder)
     {
         builder.HasKey( x => x.EnrollmentId );
-        builder.HasKey(x => x.CourseModule);
+        builder.HasKey(x => x.CourseModuleId);
         builder.Property( x => x.Progress );
         builder.Property( x => x.Duration );
         builder.Property( x => x.DeletedAt );
