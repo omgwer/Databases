@@ -6,7 +6,7 @@ public partial class CourseModule
 
     public string? CourseId { get; set; }
 
-    public string? IsRequired { get; set; }
+    public bool? IsRequired { get; set; }
 
     public DateTime CreateAt { get; set; }
 

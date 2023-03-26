@@ -19,9 +19,9 @@ public class CourseRepository : ICourseRepository
         throw new NotImplementedException();
     }
     
-    public Course GetCourse()
+    public Course? GetCourse(string id)
     {
-        throw new NotImplementedException();
+       return _dbSet.FirstOrDefault(c => c.CourseId == id);
     }
     
     public void AddCourse(Course course)

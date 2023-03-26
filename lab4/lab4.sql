@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS course_module
 (
 	module_id VARCHAR(36),	
 	course_id VARCHAR(36),
-	is_required VARCHAR(5),
+	is_required BOOLEAN,
 	create_at TIMESTAMP NOT NULL DEFAULT now(),
 	updated_at TIMESTAMP DEFAULT NULL,
 	deleted_at TIMESTAMP DEFAULT NULL,
@@ -132,8 +132,8 @@ INSERT INTO course VALUES('course_id_1'), ('course_id_2');
 INSERT INTO course_status VALUES ('enrollment_id_1', 0, 0), ('enrollment_id_2', 0, 0);
 INSERT INTO course_enrollment VALUES ('enrollment_id_1', 'course_id_1'),('enrollment_id_2', 'course_id_2');
 INSERT INTO course_module VALUES 
-	 ('module_id_1', 'course_id_1', 'false'), ('module_id_2', 'course_id_1', 'true'),
-	 ('module_id_3', 'course_id_2', 'false'), ('module_id_4', 'course_id_2', 'true');
+	 ('module_id_1', 'course_id_1', false), ('module_id_2', 'course_id_1', true),
+	 ('module_id_3', 'course_id_2', false), ('module_id_4', 'course_id_2', true);
 INSERT INTO course_module_status VALUES
 	('enrollment_id_1', 'module_id_1', 0,0), ('enrollment_id_1', 'module_id_2', 0,0),
 	('enrollment_id_2', 'module_id_3', 0,0), ('enrollment_id_2', 'module_id_4', 0,0);
@@ -146,4 +146,4 @@ SELECT * FROM course_enrollment;
 select * from course_module; --soft
 SELECT * FROM course_module_status; --soft
 
-
+DROP TABLE CourseStatus;

@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Service;
 using Service.Model.Dto;
+using Service.Service;
 
 namespace Lab4.Controller;
 
@@ -7,12 +9,28 @@ namespace Lab4.Controller;
 [Route("api/")]
 public class CourseController : ControllerBase
 {
+    private readonly ICourseEnrollmentService _courseEnrollmentService;
+    private readonly ICourseModuleService _courseModuleService;
+    private readonly ICourseModuleStatusService _courseModuleStatusService;
+    private readonly ICourseService _courseService;
+    private readonly ICourseStatusService _courseStatusService;
+
+    public CourseController(ICourseEnrollmentService courseEnrollmentService, ICourseModuleService courseModuleService, 
+        ICourseModuleStatusService courseModuleStatusService, ICourseService courseService, ICourseStatusService courseStatusService)
+    {
+        _courseEnrollmentService = courseEnrollmentService;
+        _courseModuleService = courseModuleService;
+        _courseModuleStatusService = courseModuleStatusService;
+        _courseService = courseService;
+        _courseStatusService = courseStatusService;
+    }
+
     [HttpPost("saveCourse")]
     public IActionResult SaveCourse(SaveCourseParams saveCourseParams)
     {
         try
         {
-     //       new CourseRepository().SaveCourse(saveCourseParams);
+            _courseService.SaveCourse(saveCourseParams);
         } catch (Exception exception)
         {
             return Problem(exception.Message);
