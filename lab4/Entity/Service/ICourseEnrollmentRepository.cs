@@ -7,4 +7,5 @@ public interface ICourseEnrollmentRepository
     void Add(CourseEnrollment courseStatus);
     void Delete(string id);
     void Update(CourseEnrollment course);
+    public CourseEnrollment? GetByCourseId(string id);
 }

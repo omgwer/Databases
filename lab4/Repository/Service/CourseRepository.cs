@@ -31,7 +31,7 @@ public class CourseRepository : ICourseRepository
     
     public void DeleteCourse(string id)
     {
-        throw new NotImplementedException();
+        _dbSet.Remove(GetCourse(id)!);
     }
     
     public void Update(Course course)

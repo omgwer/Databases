@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Service;
 using Service.Model.Dto;
-using Service.Service;
 
 namespace Lab4.Controller;
 
@@ -15,8 +14,9 @@ public class CourseController : ControllerBase
     private readonly ICourseService _courseService;
     private readonly ICourseStatusService _courseStatusService;
 
-    public CourseController(ICourseEnrollmentService courseEnrollmentService, ICourseModuleService courseModuleService, 
-        ICourseModuleStatusService courseModuleStatusService, ICourseService courseService, ICourseStatusService courseStatusService)
+    public CourseController(ICourseEnrollmentService courseEnrollmentService, ICourseModuleService courseModuleService,
+        ICourseModuleStatusService courseModuleStatusService, ICourseService courseService,
+        ICourseStatusService courseStatusService)
     {
         _courseEnrollmentService = courseEnrollmentService;
         _courseModuleService = courseModuleService;
@@ -31,7 +31,8 @@ public class CourseController : ControllerBase
         try
         {
             _courseService.SaveCourse(saveCourseParams);
-        } catch (Exception exception)
+        }
+        catch (Exception exception)
         {
             return Problem(exception.Message);
         }
@@ -42,11 +43,11 @@ public class CourseController : ControllerBase
     [HttpPost("deleteCourse")]
     public IActionResult DeleteCourse(string courseId)
     {
-        
         try
         {
-     //       new CourseRepository().DeleteCourse(courseId);
-        } catch (Exception exception)
+            _courseService.DeleteCourse(courseId);
+        }
+        catch (Exception exception)
         {
             return Problem(exception.Message);
         }
@@ -59,11 +60,13 @@ public class CourseController : ControllerBase
     {
         try
         {
-           _courseEnrollmentService.SaveEnrollment(enrollmentParams);
-        } catch (Exception exception)
+            _courseEnrollmentService.SaveEnrollment(enrollmentParams);
+        }
+        catch (Exception exception)
         {
             return Problem(exception.Message);
         }
+
         return Ok("Enrollment with modules saved");
     }
 
@@ -73,25 +76,28 @@ public class CourseController : ControllerBase
         try
         {
             _courseModuleStatusService.SaveMaterialStatus(saveMaterialStatusParams);
-        } catch (Exception exception)
+        }
+        catch (Exception exception)
         {
             return Problem(exception.Message);
         }
+
         return Ok("Material statuses with modules saved");
     }
 
     [HttpPost("getCourseStatus")]
     public IActionResult GetCourseStatus(CourseStatusParams courseStatusParams)
     {
-        List<List<string>> request;
+        CourseStatusData request;
         try
         {
-      //      request = new CourseRepository().GetCourseStatus(courseStatusParams);
-        } catch (Exception exception)
+            request = _courseStatusService.GetCourseStatus(courseStatusParams);
+        }
+        catch (Exception exception)
         {
             return Problem(exception.Message);
         }
 
-        return Ok("request");
+        return Ok(request);
     }
 }

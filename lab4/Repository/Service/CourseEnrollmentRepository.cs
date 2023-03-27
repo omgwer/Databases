@@ -19,6 +19,11 @@ public class CourseEnrollmentRepository : ICourseEnrollmentRepository
         throw new NotImplementedException();
     }
 
+    public CourseEnrollment? GetByCourseId(string id)
+    {
+        return _dbSet.FirstOrDefault(c => c.CourseId == id);
+    }
+    
     public CourseEnrollment? Get(string id)
     {
         return _dbSet.FirstOrDefault(c => c.EnrollmentId == id);
@@ -31,10 +36,14 @@ public class CourseEnrollmentRepository : ICourseEnrollmentRepository
 
     public void Delete(string id)
     {
-        var courseStatus = Get(id);
-        if (courseStatus != null)
+        var courseEnrollment = Get(id);
+        if (courseEnrollment != null)
         {
-            _dbSet.Remove(courseStatus);
+            _dbSet.Remove(courseEnrollment);
+        }
+        else
+        {
+            throw new ArgumentException($"course with id = '{id}' is not found");
         }
     }
 

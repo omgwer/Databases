@@ -19,9 +19,14 @@ public class CourseModuleRepository : ICourseModuleRepository
         throw new NotImplementedException();
     }
 
-    public CourseModule? GetCourseModule(string id)
+    public CourseModule? GetCourseModule(string moduleId)
     {
-        return _dbSet.FirstOrDefault(c => c.ModuleId == id);
+        return _dbSet.FirstOrDefault(c => c.ModuleId == moduleId);
+    }
+
+    public List<CourseModule> getCourseModulesListByCourseId(string courseId)
+    {
+        return _dbSet.Where(x => x.CourseId == courseId).ToList();
     }
 
     public void AddCourseModule(CourseModule courseModule)
@@ -36,6 +41,11 @@ public class CourseModuleRepository : ICourseModuleRepository
         {
             _dbSet.Remove(courseStatus);
         }
+    }
+
+    public void DeleteCourseModule(CourseModule courseModule)
+    {
+        _dbSet.Remove(courseModule);
     }
 
     public void UpdateCourseModule(Course course)

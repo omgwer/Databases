@@ -8,12 +8,12 @@ namespace Repository.Service;
 public class CourseModuleStatusRepository : ICourseModuleStatusRepository
 {
     private readonly DbSet<CourseModuleStatus> _dbSet;
-    
+
     public CourseModuleStatusRepository(CourseDbContext dbContext)
     {
         _dbSet = dbContext.Set<CourseModuleStatus>();
     }
-    
+
     public List<CourseModuleStatus> GetList()
     {
         throw new NotImplementedException();
@@ -38,8 +38,18 @@ public class CourseModuleStatusRepository : ICourseModuleStatusRepository
         }
     }
 
+    public void Delete(CourseModuleStatus courseModuleStatus)
+    {
+        _dbSet.Remove(courseModuleStatus);
+    }
+
     public void Update(CourseModuleStatus course)
     {
         _dbSet.Update(course);
+    }
+
+    public List<CourseModuleStatus> GetListByEnrollmentId(string enrollmentId)
+    {
+        return _dbSet.Where(e => e.EnrollmentId == enrollmentId).ToList();
     }
 }

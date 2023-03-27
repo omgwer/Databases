@@ -3,5 +3,5 @@
 public class ModuleStatusData
 {
     public string ModuleId { get; set; }
-    public int Progress { get; set; }
+    public decimal? Progress { get; set; }
 }

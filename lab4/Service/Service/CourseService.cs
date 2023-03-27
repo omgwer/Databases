@@ -7,17 +7,26 @@ namespace Service.Service;
 public class CourseService : ICourseService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ICourseRepository _courseRepository;
     private readonly ICourseModuleService _courseModuleService;
+    
+    private readonly ICourseRepository _courseRepository;
+    private readonly ICourseEnrollmentRepository _courseEnrollmentRepository;
+    private readonly ICourseModuleRepository _courseModuleRepository;
+    private readonly ICourseModuleStatusRepository _courseModuleStatusRepository;
+    private readonly ICourseStatusRepository _courseStatusRepository;
+    
 
-    //TODO - как правильнее, в одном сервисе использоватьь другие сервисы, или репозитории
-    // Лучше юзать репозиторий
     public CourseService(ICourseRepository courseRepository, ICourseModuleService courseModuleService,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork, ICourseEnrollmentRepository courseEnrollmentRepository, ICourseModuleRepository courseModuleRepository,
+        ICourseModuleStatusRepository courseModuleStatusRepository, ICourseStatusRepository courseStatusRepository)
     {
         _courseRepository = courseRepository;
         _unitOfWork = unitOfWork;
         _courseModuleService = courseModuleService;
+        _courseEnrollmentRepository = courseEnrollmentRepository;
+        _courseModuleRepository = courseModuleRepository;
+        _courseModuleStatusRepository = courseModuleStatusRepository;
+        _courseStatusRepository = courseStatusRepository;
     }
 
     public void SaveCourse(SaveCourseParams saveCourseParams)
@@ -43,7 +52,7 @@ public class CourseService : ICourseService
             {
                 ModuleId = e, CourseId = saveCourseParams.CourseId, IsRequired = true
             }));
-        
+
         moduleIds.ForEach(e => _courseModuleService
             .SaveModule(new CourseModuleParams()
             {
@@ -55,7 +64,16 @@ public class CourseService : ICourseService
 
     public void DeleteCourse(string courseId)
     {
-        throw new NotImplementedException();
+        var courseModules = _courseModuleRepository.getCourseModulesListByCourseId(courseId);
+        var courseEnrollment = _courseEnrollmentRepository.GetByCourseId(courseId)!;
+        
+        _courseEnrollmentRepository.Delete(courseEnrollment.EnrollmentId);
+        courseModules.ForEach( e => _courseModuleRepository.DeleteCourseModule(e));
+        _courseRepository.DeleteCourse(courseId);
+        _courseStatusRepository.DeleteCourseStatus(courseEnrollment.EnrollmentId);
+        var courseModuleStatusList = _courseModuleStatusRepository.GetListByEnrollmentId(courseEnrollment.EnrollmentId);
+        courseModuleStatusList.ForEach( e => _courseModuleStatusRepository.Delete(e));
+        _unitOfWork.Commit();
     }
 
     public CourseStatusData GetCourseStatus(CourseStatusParams courseStatusParams)
