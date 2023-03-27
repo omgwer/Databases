@@ -55,11 +55,11 @@ public class CourseController : ControllerBase
     }
 
     [HttpPost("saveEnrollment")]
-    public IActionResult SaveEnrollment(EnrollmentParams enrollmentParams)
+    public IActionResult SaveEnrollment(SaveEnrollmentParams enrollmentParams)
     {
         try
         {
-      //      new EnrollmentRepository().SaveEnrollment(enrollmentParams);
+           _courseEnrollmentService.SaveEnrollment(enrollmentParams);
         } catch (Exception exception)
         {
             return Problem(exception.Message);
@@ -72,7 +72,7 @@ public class CourseController : ControllerBase
     {
         try
         {
-      //      new MaterialRepository().SaveMaterialStatus(saveMaterialStatusParams);
+            _courseModuleStatusService.SaveMaterialStatus(saveMaterialStatusParams);
         } catch (Exception exception)
         {
             return Problem(exception.Message);

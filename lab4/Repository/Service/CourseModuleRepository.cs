@@ -31,7 +31,11 @@ public class CourseModuleRepository : ICourseModuleRepository
 
     public void DeleteCourseModule(string id)
     {
-        throw new NotImplementedException();
+        var courseStatus = GetCourseModule(id);
+        if (courseStatus != null)
+        {
+            _dbSet.Remove(courseStatus);
+        }
     }
 
     public void UpdateCourseModule(Course course)

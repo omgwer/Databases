@@ -11,6 +11,7 @@ public class CourseService : ICourseService
     private readonly ICourseModuleService _courseModuleService;
 
     //TODO - как правильнее, в одном сервисе использоватьь другие сервисы, или репозитории
+    // Лучше юзать репозиторий
     public CourseService(ICourseRepository courseRepository, ICourseModuleService courseModuleService,
         IUnitOfWork unitOfWork)
     {
