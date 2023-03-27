@@ -15,8 +15,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<CourseDbContext>( t =>
 {
-   // t.UseNpgsql( builder.Configuration.GetConnectionString( "DefaultConnection" ), b => b.MigrationsAssembly("Repository") );
-    t.UseNpgsql( builder.Configuration.GetConnectionString( "DefaultConnection"),  b => b.MigrationsAssembly("Repository"));
+   // t.UseNpgsql( builder.Configuration.GetConnectionString( "DefaultConnection" ), b => b.MigrationsAssembly("Infrastructure") );
+    t.UseNpgsql( builder.Configuration.GetConnectionString( "DefaultConnection"),  b => b.MigrationsAssembly("Infrastructure"));
 } );
 
 builder.Services.AddEndpointsApiExplorer();

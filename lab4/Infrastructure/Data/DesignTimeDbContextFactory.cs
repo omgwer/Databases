@@ -9,7 +9,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<CourseDbCo
     public CourseDbContext CreateDbContext(string[] args)
     {
         IConfigurationBuilder builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory().Replace("Repository", "Backend"))
+            .SetBasePath(Directory.GetCurrentDirectory().Replace("Infrastructure", "Backend"))
             .AddJsonFile("appsettings.json");
         
         var config = builder.Build();

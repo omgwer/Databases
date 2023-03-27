@@ -6,6 +6,8 @@ public partial class Course
 
     public int Version { get; set; }
 
+    public string Subtitle { get; set; } = string.Empty;
+
     public DateTime CreateAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }

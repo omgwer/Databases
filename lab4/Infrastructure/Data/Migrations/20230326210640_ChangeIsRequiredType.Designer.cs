@@ -25,7 +25,7 @@ namespace Repository.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Entity.Course", b =>
+            modelBuilder.Entity("Domain.Course", b =>
                 {
                     b.Property<string>("CourseId")
                         .HasMaxLength(36)
@@ -59,7 +59,7 @@ namespace Repository.Data.Migrations
                     b.ToTable("course", (string)null);
                 });
 
-            modelBuilder.Entity("Entity.CourseEnrollment", b =>
+            modelBuilder.Entity("Domain.CourseEnrollment", b =>
                 {
                     b.Property<string>("EnrollmentId")
                         .HasMaxLength(36)
@@ -79,7 +79,7 @@ namespace Repository.Data.Migrations
                     b.ToTable("course_enrollment", (string)null);
                 });
 
-            modelBuilder.Entity("Entity.CourseModule", b =>
+            modelBuilder.Entity("Domain.CourseModule", b =>
                 {
                     b.Property<string>("ModuleId")
                         .HasMaxLength(36)
@@ -118,7 +118,7 @@ namespace Repository.Data.Migrations
                     b.ToTable("course_module", (string)null);
                 });
 
-            modelBuilder.Entity("Entity.CourseModuleStatus", b =>
+            modelBuilder.Entity("Domain.CourseModuleStatus", b =>
                 {
                     b.Property<string>("EnrollmentId")
                         .HasMaxLength(36)
@@ -151,7 +151,7 @@ namespace Repository.Data.Migrations
                     b.ToTable("course_module_status", (string)null);
                 });
 
-            modelBuilder.Entity("Entity.CourseStatus", b =>
+            modelBuilder.Entity("Domain.CourseStatus", b =>
                 {
                     b.Property<string>("EnrollmentId")
                         .HasMaxLength(36)
@@ -177,17 +177,17 @@ namespace Repository.Data.Migrations
                     b.ToTable("course_status", (string)null);
                 });
 
-            modelBuilder.Entity("Entity.CourseEnrollment", b =>
+            modelBuilder.Entity("Domain.CourseEnrollment", b =>
                 {
-                    b.HasOne("Entity.Course", "Course")
+                    b.HasOne("Domain.Course", "Course")
                         .WithMany("CourseEnrollments")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("course_enrollment_course_id_fkey");
 
-                    b.HasOne("Entity.CourseStatus", "Enrollment")
+                    b.HasOne("Domain.CourseStatus", "Enrollment")
                         .WithOne("CourseEnrollment")
-                        .HasForeignKey("Entity.CourseEnrollment", "EnrollmentId")
+                        .HasForeignKey("Domain.CourseEnrollment", "EnrollmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("course_enrollment_enrollment_id_fkey");
@@ -197,9 +197,9 @@ namespace Repository.Data.Migrations
                     b.Navigation("Enrollment");
                 });
 
-            modelBuilder.Entity("Entity.CourseModule", b =>
+            modelBuilder.Entity("Domain.CourseModule", b =>
                 {
-                    b.HasOne("Entity.Course", "Course")
+                    b.HasOne("Domain.Course", "Course")
                         .WithMany("CourseModules")
                         .HasForeignKey("CourseId")
                         .HasConstraintName("course_module_course_id_fkey");
@@ -207,16 +207,16 @@ namespace Repository.Data.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("Entity.CourseModuleStatus", b =>
+            modelBuilder.Entity("Domain.CourseModuleStatus", b =>
                 {
-                    b.HasOne("Entity.CourseStatus", "Enrollment")
+                    b.HasOne("Domain.CourseStatus", "Enrollment")
                         .WithMany("CourseModuleStatuses")
                         .HasForeignKey("EnrollmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("course_module_status_enrollment_id_fkey");
 
-                    b.HasOne("Entity.CourseModule", "Module")
+                    b.HasOne("Domain.CourseModule", "Module")
                         .WithMany("CourseModuleStatuses")
                         .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -228,19 +228,19 @@ namespace Repository.Data.Migrations
                     b.Navigation("Module");
                 });
 
-            modelBuilder.Entity("Entity.Course", b =>
+            modelBuilder.Entity("Domain.Course", b =>
                 {
                     b.Navigation("CourseEnrollments");
 
                     b.Navigation("CourseModules");
                 });
 
-            modelBuilder.Entity("Entity.CourseModule", b =>
+            modelBuilder.Entity("Domain.CourseModule", b =>
                 {
                     b.Navigation("CourseModuleStatuses");
                 });
 
-            modelBuilder.Entity("Entity.CourseStatus", b =>
+            modelBuilder.Entity("Domain.CourseStatus", b =>
                 {
                     b.Navigation("CourseEnrollment");
 

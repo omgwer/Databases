@@ -15,7 +15,7 @@ public class CourseStatusService : ICourseStatusService
     private readonly ICourseStatusRepository _courseStatusRepository;
     
 
-    public CourseStatusService(ICourseRepository courseRepository, ICourseModuleService courseModuleService,
+    public CourseStatusService(ICourseRepository courseRepository, 
         IUnitOfWork unitOfWork, ICourseEnrollmentRepository courseEnrollmentRepository, ICourseModuleRepository courseModuleRepository,
         ICourseModuleStatusRepository courseModuleStatusRepository, ICourseStatusRepository courseStatusRepository)
     {
@@ -30,7 +30,6 @@ public class CourseStatusService : ICourseStatusService
     public CourseStatusData GetCourseStatus(CourseStatusParams courseStatusParams)
     {
         CourseStatusData courseStatusData = new CourseStatusData();
-        courseStatusData.Modules = new List<ModuleStatusData>();
         CourseEnrollment? courseEnrollment = _courseEnrollmentRepository.Get(courseStatusParams.EnrollmentId);
         var courseStatus = _courseStatusRepository.GetCourseStatus(courseStatusParams.EnrollmentId)!;
         //var courseModules = _courseModuleRepository.getCourseModulesListByCourseId(courseStatusParams.CourseId);
