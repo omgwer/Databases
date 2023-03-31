@@ -3,9 +3,9 @@
 public interface ICourseEnrollmentRepository
 {
     List<CourseEnrollment> GetList();
-    CourseEnrollment? Get(string id);
+    CourseEnrollment? Get(string enrollmentId);
     void Add(CourseEnrollment courseStatus);
     void Delete(string id);
     void Update(CourseEnrollment course);
-    public CourseEnrollment? GetByCourseId(string id);
+    public CourseEnrollment? GetByCourseId(string courseId);
 }

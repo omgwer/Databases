@@ -31,7 +31,6 @@ builder.Services.AddScoped<ICourseModuleRepository, CourseModuleRepository>();
 builder.Services.AddScoped<ICourseModuleStatusRepository, CourseModuleStatusRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseStatusRepository, CourseStatusRepository>();
-//TODO - узнать, нужно ли скоупать репозитории
 builder.Services.AddScoped<ICourseEnrollmentService, CourseEnrollmentService>();
 builder.Services.AddScoped<ICourseModuleService, CourseModuleService>();
 builder.Services.AddScoped<ICourseModuleStatusService, CourseModuleStatusService>();

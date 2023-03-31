@@ -19,14 +19,14 @@ public class CourseEnrollmentRepository : ICourseEnrollmentRepository
         throw new NotImplementedException();
     }
 
-    public CourseEnrollment? GetByCourseId(string id)
+    public CourseEnrollment? GetByCourseId(string courseId)
     {
-        return _dbSet.FirstOrDefault(c => c.CourseId == id);
+        return _dbSet.FirstOrDefault(c => c.CourseId == courseId);
     }
     
-    public CourseEnrollment? Get(string id)
+    public CourseEnrollment? Get(string enrollmentId)
     {
-        return _dbSet.FirstOrDefault(c => c.EnrollmentId == id);
+        return _dbSet.FirstOrDefault(c => c.EnrollmentId == enrollmentId);
     }
 
     public void Add(CourseEnrollment courseStatus)

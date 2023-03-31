@@ -64,7 +64,7 @@ public class CourseService : ICourseService
 
     public void DeleteCourse(string courseId)
     {
-        var courseModules = _courseModuleRepository.getCourseModulesListByCourseId(courseId);
+        var courseModules = _courseModuleRepository.GetCourseModulesListByCourseId(courseId);
         var courseEnrollment = _courseEnrollmentRepository.GetByCourseId(courseId)!;
         
         _courseEnrollmentRepository.Delete(courseEnrollment.EnrollmentId);

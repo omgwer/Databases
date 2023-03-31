@@ -24,7 +24,7 @@ public class CourseModuleRepository : ICourseModuleRepository
         return _dbSet.FirstOrDefault(c => c.ModuleId == moduleId);
     }
 
-    public List<CourseModule> getCourseModulesListByCourseId(string courseId)
+    public List<CourseModule> GetCourseModulesListByCourseId(string courseId)
     {
         return _dbSet.Where(x => x.CourseId == courseId).ToList();
     }
