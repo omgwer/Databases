@@ -56,15 +56,15 @@ public class CourseModuleStatusService : ICourseModuleStatusService
         // нужно обойти весь список с модулями, и высчитать прогресс
         var courseModuleStatusList =
             _courseModuleStatusRepository.GetListByEnrollmentId(saveMaterialStatusParams.EnrollmentId);
-        bool isRequireadAllCourses = true;
+        bool areAllModulesOptional = true;
         foreach (var courseModuleStatusElement in courseModuleStatusList)
         {
             var module = _courseModuleRepository.GetCourseModule(courseModuleStatusElement.ModuleId);
-            if ((bool)!module.IsRequired)
-                isRequireadAllCourses = false;
+            if ((bool)module.IsRequired)
+                areAllModulesOptional = false;
         }
 
-        if (isRequireadAllCourses)
+        if (areAllModulesOptional)
         {
             var course = _courseStatusRepository.GetCourseStatus(saveMaterialStatusParams.EnrollmentId);
             course!.Progress = 100;
