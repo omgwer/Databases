@@ -41,7 +41,7 @@ LEFT JOIN inventory AS inv ON inv.film_id = fl.film_id
 LEFT JOIN rental AS rnt ON inv.inventory_id = rnt.inventory_id
 LEFT JOIN payment AS pm ON pm.rental_id = rnt.rental_id
 GROUP BY fl.title
-ORDER BY revenue;
+ORDER BY revenue DESC;
 -- 38msec 56 row WITHOUNT NULL
 
 -- кол-во ужастиков
