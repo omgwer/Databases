@@ -13,6 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastru
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{CA7BB726-FB26-4288-9D15-529A43539D58}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5A2A9881-F5D6-4AC7-A6DB-90F5F31C9B79} = {5A2A9881-F5D6-4AC7-A6DB-90F5F31C9B79}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{5A2A9881-F5D6-4AC7-A6DB-90F5F31C9B79}"
 EndProject
